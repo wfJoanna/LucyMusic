@@ -1,13 +1,18 @@
 <template>
   <div id="app">
+    <my-header v-if="!$route.meta.isLogin"></my-header>
     <router-view/>
+    <my-footer v-if="!$route.meta.isLogin"></my-footer>
   </div>
 </template>
 
 <script>
 import ChangeTheme from './utils/ChangeTheme.js'
+import MyHeader from './components/MyHeader'
+import MyFooter from './components/MyFooter'
 
 export default {
+  components: { MyFooter, MyHeader },
   methods: {
     handleLoad () {
       ChangeTheme.initCss().then(() => {
@@ -22,6 +27,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import './styles/iconfont.css';
+
 body {
   margin: 0;
 }

@@ -1,7 +1,7 @@
 <template>
-  <div class="login">
-    <div class="login-card">
-      <div class="logo-svg">
+  <div class="my-header">
+    <div class="logo" @click="handleHome">
+      <div class="logo-img">
         <svg id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"
              xmlns="http://www.w3.org/2000/svg">
           <g id="XMLID_1123_">
@@ -43,118 +43,89 @@
           </g>
         </svg>
       </div>
-      <p class="logo-title">LUCYMUSIC</p>
-      <el-form class="login-form" :model="loginForm" :rules="loginRules" ref="loginForm">
-        <el-form-item prop="phone">
-          <el-input v-model="loginForm.phone" placeholder="请输入网易云音乐手机号"
-                    prefix-icon="el-icon-mobile-phone"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="el-icon-lock" show-password
-                    @keyup.enter.native="handleSubmit('loginForm')"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button class="login-btn" type="primary" @click="handleSubmit('loginForm')"
-                     :loading="loginLoading">登录
-          </el-button>
-        </el-form-item>
-      </el-form>
+      <div class="logo-text">LUCYMUSIC</div>
+    </div>
+    <ul class="nav-piece">
+      <li>
+        <router-link :to="{ name: 'home' }" tag="a">发现音乐</router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'rank' }" tag="a">排行榜</router-link>
+      </li>
+    </ul>
+    <div class="search">
+      <el-button icon="el-icon-search" circle></el-button>
+    </div>
+    <div class="user-box">
+      <el-button class="no-login" type="text" @click="handleLogin">登录</el-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "login",
-  data () {
-    return {
-      loginForm: {
-        phone: '',
-        password: ''
-      },
-      loginRules: {
-        phone: [{ required: true, message: '请输入手机号哦', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码哦', trigger: 'blur' }]
-      },
-      loginLoading: false
-    }
-  },
+  name: "MyHeader",
   methods: {
-    // 提交登录
-    handleSubmit (formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.loginLoading = true
-          let { phone, password } = this.loginForm
-          this.loginAsync(phone, password)
-        }
+    handleLogin () {
+      this.$router.push({
+        name: 'login'
       })
     },
-    // 登录接口调用
-    loginAsync (phone, password) {
-      this.$api.login(phone, password)
-          .then(res => {
-            this.loginLoading = false
-            this.$message.success('登录成功')
-            window.localStorage.setItem('cookie', res.cookie)
-            window.localStorage.setItem('token', res.token)
-            window.localStorage.setItem('loginStatus', true)
-            this.$router.replace('/')
-          })
-          .catch(err => {
-            this.loginLoading = false
-            if (err.code === 400) {
-              this.$message.error('请输入正确格式的手机号')
-            } else if (err.code === 502) {
-              this.$message.error('手机号或密码错误')
-            } else if (err.data.code === 501) {
-              this.$message.error('该手机号尚未注册')
-            } else if (err.data.code === 509) {
-              this.$message.error('密码错误超过限制，请稍后再试')
-            }
-            // 之所以会有这样的差异，是因为，400和502的status是200，501的status是501，509的status是509
-          })
+    handleHome () {
+      this.$router.push({
+        name: 'home'
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.login {
-  height: 100vh;
+.my-header {
+  width: 100%;
+  height: 70px;
+  background: white;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  //background: #413c69;
-  background: #413c69 url(../../assets/lgbg.png) no-repeat;
-  background-size: 600px;
+  padding: 5px 20px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
 
-  .login-card {
-    width: 350px;
-    background: white;
+  .logo {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    border-radius: 8px;
+    cursor: pointer;
 
-    .logo-svg {
-      width: 50px;
+    .logo-img {
+      width: 40px;
+      margin-right: 5px;
     }
 
-    .logo-title {
-      margin-bottom: 45px;
+    .logo-text {
+      font-weight: bolder;
     }
+  }
 
-    .login-form {
-      width: 290px;
-
-      .login-btn {
-        width: 100%;
-        margin-top: 20px;
+  .nav-piece{
+    flex: 1 1 auto;
+    display: flex;
+    list-style-type: none;
+    li{
+      margin: 0 10px;
+      a{
+        text-decoration: none;
+        color: black;
+        &.router-link-active {
+          color: #709fb0;
+        }
       }
     }
+  }
+
+  .search{
+    margin: 0 50px;
   }
 }
 </style>

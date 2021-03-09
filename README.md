@@ -23,6 +23,7 @@
 - axios 0.21.1
 - qs 6.9.6
 - vercel部署网易云音乐api
+- iconfont也有用到一丁点
 
 
 
