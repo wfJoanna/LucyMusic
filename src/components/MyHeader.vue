@@ -57,15 +57,36 @@
       <el-button icon="el-icon-search" circle></el-button>
     </div>
     <div class="user-box">
-      <el-button class="no-login" type="text" @click="handleLogin">登录</el-button>
+      <div class="is-login" v-if="userInfo">
+        <el-avatar :src="userInfo.avatarUrl"></el-avatar>
+        <el-dropdown trigger="click" @command="handleCommand">
+          <span class="user-dropdown">
+            {{ userInfo.nickname }}<i class="el-icon-arrow-down"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-user" command="user">个人主页</el-dropdown-item>
+            <el-dropdown-item divided icon="el-icon-switch-button" command="exit">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+      <el-button class="no-login" type="text" @click="handleLogin" v-else>登录</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+import * as types from '../store/mutationType'
+
 export default {
   name: "MyHeader",
+  computed: {
+    ...mapState(['userInfo'])
+  },
   methods: {
+    ...mapMutations({
+      toClearUserInfo: types.CLEAR_USER_INFO
+    }),
     handleLogin () {
       this.$router.push({
         name: 'login'
@@ -75,6 +96,14 @@ export default {
       this.$router.push({
         name: 'home'
       })
+    },
+    handleCommand (command) {
+      if (command === 'user') {
+        alert('还没做')
+      } else if (command === 'exit') {
+        this.toClearUserInfo()
+        window.localStorage.setItem('userInfo', null)
+      }
     }
   }
 }
@@ -108,15 +137,18 @@ export default {
     }
   }
 
-  .nav-piece{
+  .nav-piece {
     flex: 1 1 auto;
     display: flex;
     list-style-type: none;
-    li{
+
+    li {
       margin: 0 10px;
-      a{
+
+      a {
         text-decoration: none;
         color: black;
+
         &.router-link-active {
           color: #709fb0;
         }
@@ -124,8 +156,20 @@ export default {
     }
   }
 
-  .search{
+  .search {
     margin: 0 50px;
+  }
+
+  .user-box {
+    .is-login {
+      display: flex;
+      align-items: center;
+
+      .user-dropdown {
+        cursor: pointer;
+        margin-left: 10px;
+      }
+    }
   }
 }
 </style>

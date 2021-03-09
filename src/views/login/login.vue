@@ -64,6 +64,9 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+import * as types from '../../store/mutationType'
+
 export default {
   name: "login",
   data () {
@@ -80,40 +83,41 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      toSetUserInfo: types.SET_USER_INFO
+    }),
+
     // 提交登录
     handleSubmit (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.loginLoading = true
           let { phone, password } = this.loginForm
-          this.loginAsync(phone, password)
+
+          this.$api.login(phone, password)
+              .then(res => {
+                this.toSetUserInfo(res.profile)
+                this.loginLoading = false
+                this.$message.success('登录成功')
+                window.localStorage.setItem('userInfo', JSON.stringify(res.profile))
+                this.$router.replace('/')
+              })
+              .catch(err => {
+                this.loginLoading = false
+                if (err.code === 400) {
+                  this.$message.error('请输入正确格式的手机号')
+                } else if (err.code === 502) {
+                  this.$message.error('手机号或密码错误')
+                } else if (err.data.code === 501) {
+                  this.$message.error('该手机号尚未注册')
+                } else if (err.data.code === 509) { // 之所以会有这样的差异，是因为，400和502的status是200，501的status是501，509的status是509
+                  this.$message.error('密码错误超过限制，请稍后再试')
+                } else {
+                  this.$message.error('似乎出了什么问题')
+                }
+              })
         }
       })
-    },
-    // 登录接口调用
-    loginAsync (phone, password) {
-      this.$api.login(phone, password)
-          .then(res => {
-            this.loginLoading = false
-            this.$message.success('登录成功')
-            window.localStorage.setItem('cookie', res.cookie)
-            window.localStorage.setItem('token', res.token)
-            window.localStorage.setItem('loginStatus', true)
-            this.$router.replace('/')
-          })
-          .catch(err => {
-            this.loginLoading = false
-            if (err.code === 400) {
-              this.$message.error('请输入正确格式的手机号')
-            } else if (err.code === 502) {
-              this.$message.error('手机号或密码错误')
-            } else if (err.data.code === 501) {
-              this.$message.error('该手机号尚未注册')
-            } else if (err.data.code === 509) {
-              this.$message.error('密码错误超过限制，请稍后再试')
-            }
-            // 之所以会有这样的差异，是因为，400和502的status是200，501的status是501，509的status是509
-          })
     }
   }
 }
