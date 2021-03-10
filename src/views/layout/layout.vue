@@ -12,6 +12,9 @@ export default {
 
 <style lang="scss" scoped>
 .layout {
-  padding-top: 70px;
+  padding-top: 70px + 20px;
+  min-height: calc(100vh - 100px);
+  padding-left: 70px;
+  padding-right: 70px;
 }
 </style>

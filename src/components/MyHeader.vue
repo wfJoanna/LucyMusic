@@ -47,7 +47,7 @@
     </div>
     <ul class="nav-piece">
       <li>
-        <router-link :to="{ name: 'home' }" tag="a">发现音乐</router-link>
+        <router-link :to="{ name: 'home' }" tag="a">个性推荐</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'rank' }" tag="a">排行榜</router-link>
@@ -117,10 +117,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 20px;
+  padding: 5px 70px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
+  z-index: 99;
 
   .logo {
     display: flex;
@@ -150,7 +151,7 @@ export default {
         color: black;
 
         &.router-link-active {
-          color: #709fb0;
+          color: #7868e6;
         }
       }
     }

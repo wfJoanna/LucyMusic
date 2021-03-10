@@ -10,3 +10,13 @@ export const login = (phone, password) =>
         withCredentials: true
     })
 
+/**
+ * @method 获取轮播图
+ */
+export const getBanner = () => iAxios.get('/banner', {})
+
+/**
+ * @method 获取推荐歌单
+ * @params limit 取出数量默认为 30
+ */
+export const getPersonalized = limit => iAxios.get(`/personalized?limit=${limit}`, {})
