@@ -20,3 +20,9 @@ export const getBanner = () => iAxios.get('/banner', {})
  * @params limit 取出数量默认为 30
  */
 export const getPersonalized = limit => iAxios.get(`/personalized?limit=${limit}`, {})
+
+/**
+ * @method 获取最新音乐
+ * @params limit 取出数量默认为 10
+ */
+export const getNewSongs = limit => iAxios.get(`/personalized/newsong?limit=${limit}`, {})

@@ -1,7 +1,7 @@
 <template>
   <div class="personalized-list">
     <div class="list-title">
-      <span>推荐歌单<i class="el-icon-arrow-right"></i></span>
+      <span @click="handleOpenList">推荐歌单<i class="el-icon-arrow-right"></i></span>
     </div>
     <div class="list-content">
       <div class="list-item" v-for="item of lists" :key="item.id">
@@ -15,10 +15,12 @@
             </div>
           </el-image>
           <div class="item-count">
-            <i class="el-icon-caret-right"></i><span>{{item.playCount}}</span>
+            <i class="el-icon-caret-right"></i><span>{{ getPlayCount(item) }}</span>
           </div>
         </div>
-        <div class="item-info"></div>
+        <div class="item-info">
+          <span>{{item.name}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -39,6 +41,14 @@ export default {
             this.lists = res.result
           })
           .catch(() => this.$message.error('获取推荐歌单出错'))
+    },
+    getPlayCount (item) {
+      return item.playCount < 10000 ? item.playCount : Math.floor(item.playCount / 10000)+'万'
+    },
+    handleOpenList(){
+      this.$router.push({
+        name: 'playlist'
+      })
     }
   },
   mounted () {
@@ -69,7 +79,6 @@ export default {
         background-color: #d9d9d9;
         border-radius: 4px;
         color: white;
-        padding: 0;
         position: relative; /*只是为了设置z-index而已*/
 
         &:hover {
@@ -85,12 +94,17 @@ export default {
           vertical-align: top;
         }
 
-        .item-count{
+        .item-count {
           background: black;
           position: absolute;
           top: 10px;
           right: 10px;
         }
+      }
+
+      .item-info{
+        margin-top: 15px;
+        font-size: 14px;
       }
     }
   }
