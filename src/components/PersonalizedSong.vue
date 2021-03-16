@@ -5,13 +5,14 @@
     </div>
     <div class="song-content">
       <div class="song-item" v-for="(item,index) of songList" :key="item.id" @mouseenter="handleEnter(index)"
-           @mouseleave="handleLeave" @click="handlePlay(index)">
+           @mouseleave="handleLeave">
         <div class="song-index">
-          <i class="el-icon-video-play play-icon" v-if="focusItem===index"></i>
+          <i class="el-icon-video-play play-icon" @click="handlePlay(index)" v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
+          <i class="el-icon-video-pause play-icon" @click="handlePause" v-else-if="focusItem===index && playing"></i>
           <span v-else>{{ index + 1 }}</span>
         </div>
         <div class="song-cover">
-          <el-image :key="item.picUrl" :src="item.picUrl" lazy>
+          <el-image :key="item.image" :src="item.image" lazy>
             <div slot="placeholder" class="image-slot">
               加载中<span class="dot">...</span>
             </div>
@@ -22,7 +23,7 @@
         </div>
         <div class="song-info">
           <div class="song-name">{{ item.name }}</div>
-          <div class="song-singer">{{ getSinger(item.song.artists) }}</div>
+          <div class="song-singer">{{ item.singer }}</div>
         </div>
       </div>
     </div>
@@ -30,7 +31,8 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
+import util from '../utils/util'
 export default {
   name: "PersonalizedSong",
   data () {
@@ -39,8 +41,12 @@ export default {
       focusItem: -1
     }
   },
+  computed:{
+    ...mapState(['playing']),
+    ...mapGetters(['currentSong'])
+  },
   methods: {
-    ...mapActions(['selectPlay']),
+    ...mapActions(['selectPlay','pausePlay']),
     handleOpenSong () {
       this.$router.push({
         name: 'song'
@@ -49,16 +55,13 @@ export default {
     getPersonalizedSong () {
       this.$api.getNewSongs(12)
           .then(res => {
-            this.songList = res.result
+            let songs=[]
+            res.result.map(item=>{
+              songs.push(util.createSong(item))
+            })
+            this.songList = songs
           })
-          .catch(() => this.$message.error('获取最新音乐出错'))
-    },
-    getSinger (artists) {
-      let arr = []
-      for (let val of artists) {
-        arr.unshift(val.name)
-      }
-      return arr.join(' / ')
+          .catch((err) => {this.$message.error('获取最新音乐出错');console.log(err)})
     },
     handleEnter (index) {
       this.focusItem = index
@@ -71,6 +74,9 @@ export default {
         list:this.songList,
         index
       })
+    },
+    handlePause(){
+      this.pausePlay()
     }
   },
   mounted () {
@@ -95,6 +101,7 @@ export default {
 
     .song-item {
       flex: 0 0 33.33%;
+      max-width: 33.33%;
       height: 80px;
       display: flex;
       align-items: center;

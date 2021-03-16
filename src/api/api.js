@@ -26,3 +26,4 @@ export const getPersonalized = limit => iAxios.get(`/personalized?limit=${limit}
  * @params limit 取出数量默认为 10
  */
 export const getNewSongs = limit => iAxios.get(`/personalized/newsong?limit=${limit}`, {})
+

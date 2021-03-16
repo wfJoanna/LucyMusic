@@ -73,6 +73,7 @@ export default {
     .list-item {
       flex: 0 0 12.5%;
       padding: 15px;
+      max-width: 12.5%;
 
       .item-cover {
         cursor: pointer;

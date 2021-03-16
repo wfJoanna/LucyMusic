@@ -16,5 +16,8 @@ export default {
         }
         commit(types.SET_CURRENT_INDEX, index)
         commit(types.SET_PLAYING_STATE, true)
+    },
+    pausePlay ({ commit }) {
+        commit(types.SET_PLAYING_STATE, false)
     }
 }
