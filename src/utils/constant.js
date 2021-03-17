@@ -1,6 +1,5 @@
 export const playMode = {
-    sequence: 0,
-    loop: 1,
-    random: 2,
-    single: 3
+    sequence: 0, // 列表循环
+    loop: 1, // 单曲循环
+    random: 2, // 随机播放
 }

@@ -18,5 +18,8 @@ export default {
     },
     [types.SET_PLAYING_STATE] (state, data) {
         state.playing = data
+    },
+    [types.SET_PLAY_MODE](state, data) {
+        state.mode = data
     }
 }

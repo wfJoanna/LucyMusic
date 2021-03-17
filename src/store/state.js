@@ -5,7 +5,7 @@ export default {
     userInfo: JSON.parse(window.localStorage.getItem('userInfo')),
     // 顺序播放列表
     sequenceList: [],
-    // 播放模式（顺序、循环、随机、单曲）
+    // 播放模式（列表循环、单曲循环、随机播放）
     mode: playMode.sequence,
     // 播放列表
     playList:[],

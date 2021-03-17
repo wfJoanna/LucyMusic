@@ -32,7 +32,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import util from '../utils/util'
+import { createSong } from '../utils/util'
 export default {
   name: "PersonalizedSong",
   data () {
@@ -57,7 +57,7 @@ export default {
           .then(res => {
             let songs=[]
             res.result.map(item=>{
-              songs.push(util.createSong(item))
+              songs.push(createSong(item))
             })
             this.songList = songs
           })

@@ -15,3 +15,6 @@ export const SET_CURRENT_INDEX = 'set_current_index'
 
 /** 设置播放状态 **/
 export const SET_PLAYING_STATE = 'set_playing_state'
+
+/** 设置播放模式(循环，单曲，随机) **/
+export const SET_PLAY_MODE = 'set_play_mode'
