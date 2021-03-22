@@ -15,19 +15,19 @@ export default {
 <style lang="scss" scoped>
 .my-footer {
   background: #161e27;
-  height: 100px;
+  height: 172px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding: 20px 10px;
   color: #6D7685;
   font-size: smaller;
 
   .foot-title{
-    margin-bottom: 7px;
+    margin-bottom: 9px;
   }
 
   .source-code {
+    margin-bottom: 9px;
     a {
       color: #6D7685;
       text-decoration: none;

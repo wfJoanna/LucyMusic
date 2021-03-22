@@ -7,7 +7,8 @@
       <div class="song-item" v-for="(item,index) of songList" :key="item.id" @mouseenter="handleEnter(index)"
            @mouseleave="handleLeave">
         <div class="song-index">
-          <i class="el-icon-video-play play-icon" @click="handlePlay(index)" v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
+          <i class="el-icon-video-play play-icon" @click="handlePlay(index)"
+             v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
           <i class="el-icon-video-pause play-icon" @click="handlePause" v-else-if="focusItem===index && playing"></i>
           <span v-else>{{ index + 1 }}</span>
         </div>
@@ -33,6 +34,7 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { createSong } from '../utils/util'
+
 export default {
   name: "PersonalizedSong",
   data () {
@@ -41,27 +43,37 @@ export default {
       focusItem: -1
     }
   },
-  computed:{
+  computed: {
     ...mapState(['playing']),
     ...mapGetters(['currentSong'])
   },
   methods: {
-    ...mapActions(['selectPlay','pausePlay']),
+    ...mapActions(['selectPlay', 'pausePlay','getNewSongs','getSongDetails']),
     handleOpenSong () {
       this.$router.push({
         name: 'song'
       })
     },
     getPersonalizedSong () {
-      this.$api.getNewSongs(12)
+      this.getNewSongs(12)
           .then(res => {
-            let songs=[]
+            let idArr=[]
             res.result.map(item=>{
-              songs.push(createSong(item))
+              idArr.push(item.id)
             })
-            this.songList = songs
+            let idString=idArr.join(',')
+            this.getSongDetails(idString)
+              .then(data=>{
+                let songs=[]
+                data.songs.map(item=>{
+                  songs.push(createSong(item))
+                })
+                this.songList=songs
+              })
           })
-          .catch((err) => {this.$message.error('获取最新音乐出错');console.log(err)})
+          .catch((err) => {
+            this.$message.error('获取最新音乐出错');
+          })
     },
     handleEnter (index) {
       this.focusItem = index
@@ -69,13 +81,13 @@ export default {
     handleLeave () {
       this.focusItem = -1
     },
-    handlePlay(index){
+    handlePlay (index) {
       this.selectPlay({
-        list:this.songList,
+        list: this.songList,
         index
       })
     },
-    handlePause(){
+    handlePause () {
       this.pausePlay()
     }
   },
@@ -117,7 +129,7 @@ export default {
         margin: 0 20px;
         text-align: center;
 
-        .play-icon{
+        .play-icon {
           font-size: larger;
           color: #7868e6;
           cursor: pointer;

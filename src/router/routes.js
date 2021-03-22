@@ -65,6 +65,15 @@ export const appRouter = [
                 },
                 name: 'song',
                 component: () => import(/* webpackChunkName: "song" */ '../views/song/song')
+            },
+            {
+                path: 'song-detail',
+                meta: {
+                    title: '歌曲详情',
+                    keepAlive: true
+                },
+                name: 'song-detail',
+                component: () => import(/* webpackChunkName: "SongDetail" */ '../views/detail/SongDetail')
             }
         ]
     }

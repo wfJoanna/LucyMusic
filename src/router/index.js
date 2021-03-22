@@ -23,7 +23,10 @@ Vue.use(VueRouter)
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
+    scrollBehavior () {
+        return { x: 0, y: 0 }
+    } // 这样切换路由的时候自动滚到顶部
 })
 
 export default router

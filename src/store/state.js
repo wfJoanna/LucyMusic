@@ -12,5 +12,7 @@ export default {
     // 播放索引（是播放列表中的索引）
     currentIndex:-1,
     // 播放状态
-    playing:false
+    playing:false,
+    // 当前音乐播放时间，单位是秒
+    currentTime:0
 }

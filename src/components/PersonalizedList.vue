@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "PersonalizedList",
   data () {
@@ -35,8 +37,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getPersonalized']),
     getPersonalizedList () {
-      this.$api.getPersonalized(24)
+      this.getPersonalized(24)
           .then(res => {
             this.lists = res.result
           })

@@ -11,6 +11,11 @@ export const login = (phone, password) =>
     })
 
 /**
+ * @method 退出登录
+ */
+export const logout = () => iAxios.get('/logout', {})
+
+/**
  * @method 获取轮播图
  */
 export const getBanner = () => iAxios.get('/banner', {})
@@ -27,3 +32,20 @@ export const getPersonalized = limit => iAxios.get(`/personalized?limit=${limit}
  */
 export const getNewSongs = limit => iAxios.get(`/personalized/newsong?limit=${limit}`, {})
 
+/**
+ * @method 获取歌曲详情
+ * @param ids 音乐id，多个用逗号隔开
+ */
+export const getSongDetail = ids => iAxios.get(`/song/detail?ids=${ids}`,{})
+
+/**
+ * @method 获取歌词
+ * @param id 音乐id
+ */
+export const getLyric = id => iAxios.get(`/lyric?id=${id}`,{})
+
+/**
+ * @method 获取相似音乐
+ * @param id 歌曲id
+ */
+export const getSimiSong = id => iAxios.get(`/simi/song?id=${id}`,{})

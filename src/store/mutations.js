@@ -21,5 +21,8 @@ export default {
     },
     [types.SET_PLAY_MODE](state, data) {
         state.mode = data
+    },
+    [types.SET_CURRENT_TIME](state,data){
+        state.currentTime=data
     }
 }

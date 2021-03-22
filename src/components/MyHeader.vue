@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import * as types from '../store/mutationType'
 
 export default {
@@ -93,6 +93,7 @@ export default {
     ...mapMutations({
       toClearUserInfo: types.CLEAR_USER_INFO
     }),
+    ...mapActions(['logout']),
     handleLogin () {
       this.$router.push({
         name: 'login'
@@ -107,8 +108,16 @@ export default {
       if (command === 'user') {
         alert('还没做')
       } else if (command === 'exit') {
-        this.toClearUserInfo()
-        window.localStorage.setItem('userInfo', null)
+        this.logout()
+            .then(() => {
+              this.$message.success('退出登录成功')
+              this.toClearUserInfo()
+              window.localStorage.setItem('userInfo', null)
+            })
+            .catch(() => {
+              this.$message.error('退出登录失败')
+            })
+
       }
     }
   }

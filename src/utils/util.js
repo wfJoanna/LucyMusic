@@ -18,10 +18,11 @@ export function createSong (data) {
     return {
         id: data.id,
         url: `https://music.163.com/song/media/outer/url?id=${data.id}.mp3`,
-        singer: getSinger(data.song.artists),
+        singer: getSinger(data.ar),
         name: data.name,
-        duration: getSecond(data.song.duration),
-        image: data.picUrl
+        duration: getSecond(data.dt),
+        image: data.al.picUrl,
+        album: data.al.name
     }
 }
 

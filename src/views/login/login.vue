@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import * as types from '../../store/mutationType'
 
 export default {
@@ -86,15 +86,13 @@ export default {
     ...mapMutations({
       toSetUserInfo: types.SET_USER_INFO
     }),
-
+    ...mapActions(['login']),
     // 提交登录
     handleSubmit (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.loginLoading = true
-          let { phone, password } = this.loginForm
-
-          this.$api.login(phone, password)
+          this.login(this.loginForm)
               .then(res => {
                 this.toSetUserInfo(res.profile)
                 this.loginLoading = false

@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "Banner",
   data () {
@@ -22,8 +24,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getBanners']),
     getBanner () {
-      this.$api.getBanner()
+      this.getBanners()
           .then(res => {
             this.banners = res.banners
           })

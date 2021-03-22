@@ -2,6 +2,7 @@ import * as types from './mutationType'
 import state from './state';
 import { playMode } from '../utils/constant';
 import {shuffle} from '../utils/util';
+import * as api from '../api/api'
 
 export default {
     selectPlay ({ commit }, param) {
@@ -19,5 +20,30 @@ export default {
     },
     pausePlay ({ commit }) {
         commit(types.SET_PLAYING_STATE, false)
+    },
+    login({},param){
+        let {phone,password}=param
+        return api.login(phone,password)
+    },
+    getLyric({},param){
+        return api.getLyric(param)
+    },
+    getSongDetails({},param){
+        return api.getSongDetail(param)
+    },
+    getNewSongs({},param){
+        return api.getNewSongs(param)
+    },
+    getPersonalized({},param){
+        return api.getPersonalized(param)
+    },
+    logout({}){
+        return api.logout()
+    },
+    getBanners({}){
+        return api.getBanner()
+    },
+    getSimiSong({},param){
+        return api.getSimiSong(param)
     }
 }

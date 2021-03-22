@@ -18,3 +18,6 @@ export const SET_PLAYING_STATE = 'set_playing_state'
 
 /** 设置播放模式(循环，单曲，随机) **/
 export const SET_PLAY_MODE = 'set_play_mode'
+
+/** 设置当前播放时间 **/
+export const SET_CURRENT_TIME = 'set_current_time'

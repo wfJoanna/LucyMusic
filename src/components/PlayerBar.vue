@@ -1,7 +1,8 @@
 <template>
   <div class="player-bar">
     <div class="audio-avatar">
-      <img class="avatar-image" v-if="currentSong.image" :src="currentSong.image" alt="lucymusic">
+      <img class="avatar-image" v-if="currentSong.image" :src="currentSong.image" alt="lucymusic"
+           @click="handleSongDetail">
       <div v-else>
         <svg t="1615880982818" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
              p-id="2830">
@@ -83,13 +84,17 @@
         </svg>
       </div>
       <el-popover ref="popover" placement="top" trigger="click" title="播放列表">
-        <div class="list-item" v-for="(item,index) of playList" :key="item.id" @mouseenter="handleEnterItem(index)" @mouseleave="handleLeaveItem">
+        <div class="list-count">总共{{ playList.length ? playList.length : 0 }}首</div>
+        <div class="list-item" v-for="(item,index) of playList" :key="item.id" @mouseenter="handleEnterItem(index)"
+             @mouseleave="handleLeaveItem">
           <div class="item-index">
-            <i class="el-icon-video-play play-icon" @click="handlePlayItem(index)" v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
-            <i class="el-icon-video-pause play-icon" @click="handlePauseItem" v-else-if="focusItem===index && playing"></i>
+            <i class="el-icon-video-play play-icon" @click="handlePlayItem(index)"
+               v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
+            <i class="el-icon-video-pause play-icon" @click="handlePauseItem"
+               v-else-if="focusItem===index && playing"></i>
             <span v-else>{{ index + 1 }}</span>
           </div>
-          <div class="item-info">{{item.name}} - {{item.singer}}</div>
+          <div class="item-info">{{ item.name }} - {{ item.singer }}</div>
         </div>
       </el-popover>
     </div>
@@ -109,13 +114,12 @@ export default {
   components: { ProgressBar },
   data () {
     return {
-      currentTime: 0,
       volume: 100,
-      focusItem:-1
+      focusItem: -1
     }
   },
   computed: {
-    ...mapState(['playList', 'sequenceList', 'currentIndex', 'playing', 'mode']),
+    ...mapState(['playList', 'sequenceList', 'currentIndex', 'playing', 'mode','currentTime']),
     ...mapGetters(['currentSong']),
     percent () {
       if (this.currentSong.id) {
@@ -151,7 +155,8 @@ export default {
       toSetPlayingState: types.SET_PLAYING_STATE,
       toSetCurrentIndex: types.SET_CURRENT_INDEX,
       toSetPlayMode: types.SET_PLAY_MODE,
-      toSetPlaylist: types.SET_PLAYLIST
+      toSetPlaylist: types.SET_PLAYLIST,
+      toSetCurrentTime: types.SET_CURRENT_TIME
     }),
     handleToggle (status) {
       if (this.currentSong.id) {
@@ -182,7 +187,7 @@ export default {
       return getMS(time)
     },
     handleTimeUpdate (e) {
-      this.currentTime = e.target.currentTime
+      this.toSetCurrentTime(e.target.currentTime)
     },
     handleLeftChange (left) {
       if (this.currentSong.id) {
@@ -215,13 +220,13 @@ export default {
     checkMode (mode) {
       return this.mode === playMode[mode];
     },
-    handlePlayItem(index){
+    handlePlayItem (index) {
       this.selectPlay({
-        list:this.playList,
+        list: this.playList,
         index
       })
     },
-    handlePauseItem(){
+    handlePauseItem () {
       this.pausePlay()
     },
     handleEnterItem (index) {
@@ -229,6 +234,9 @@ export default {
     },
     handleLeaveItem () {
       this.focusItem = -1
+    },
+    handleSongDetail () {
+      this.$router.push('song-detail')
     }
   }
 }
@@ -254,6 +262,7 @@ export default {
     .avatar-image {
       width: 100%;
       border-radius: 4px;
+      cursor: pointer;
     }
   }
 
@@ -313,7 +322,7 @@ export default {
   .audio-tool {
     display: flex;
     align-items: center;
-    width: 50px;
+    width: 60px;
     justify-content: space-between;
     margin: 0 20px;
 
@@ -330,23 +339,28 @@ export default {
   }
 }
 
-.list-item{
+.list-count {
+  font-size: smaller;
+  color: #6D7685;
+}
+
+.list-item {
   margin: 20px 15px;
   display: flex;
 
-  .item-index{
+  .item-index {
     width: 40px;
     text-align: center;
 
-    .play-icon{
+    .play-icon {
       font-size: larger;
       color: #7868e6;
       cursor: pointer;
     }
   }
 
-  .item-info{
-    margin-left:15px;
+  .item-info {
+    margin-left: 15px;
   }
 }
 </style>
