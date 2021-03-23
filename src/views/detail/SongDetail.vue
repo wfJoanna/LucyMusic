@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="detail-bottom">
-      <div class="detail-comment"></div>
+      <comments :comments="comments"></comments>
       <div class="detail-simi">
         <div class="simi-title">相似歌曲</div>
         <div class="simi-item" @mouseenter="handleSimiEnter(index)" @mouseleave="handleSimiLeave"
@@ -30,7 +30,7 @@
           <div class="item-cover">
             <el-image class="item-image" :src="item.album.picUrl" lazy></el-image>
             <div class="item-btn" v-if="showBtn===index">
-              <el-icon class="el-icon-video-play btn-icon" @click.native="handlePlaySimi(index)"></el-icon>
+              <i class="el-icon-video-play btn-icon" @click="handlePlaySimi(index)"></i>
             </div>
           </div>
           <div class="item-info">
@@ -44,11 +44,13 @@
 </template>
 
 <script>
-import { getSinger, createSong } from '../../utils/util'
+import { getSinger, createSong,getYMD } from '../../utils/util'
 import { mapActions, mapGetters, mapState } from 'vuex';
+import Comments from '../../components/Comments';
 
 export default {
   name: "SongDetail",
+  components: { Comments },
   computed: {
     ...mapGetters(['currentSong']),
     ...mapState(['playing', 'currentTime']),
@@ -92,14 +94,15 @@ export default {
     return {
       lyrics: '',
       lyricObject: {},
-      // comments,
+      comments:[],
       simiSongs: [],
       showBtn: -1
     }
   },
   methods: {
-    ...mapActions(['getLyric', 'getSongDetails', 'getSimiSong', 'selectPlay']),
+    ...mapActions(['getLyric', 'getSongDetails', 'getSimiSong', 'selectPlay','getCommentHot']),
     initialize () {
+      this.getHotComments()
       this.getSongLyrics()
       this.getSimiSongs()
       this.turnOrStop()
@@ -176,6 +179,20 @@ export default {
         })
         .catch(()=>{
           this.$message.error('切换失败')
+        })
+    },
+    getHotComments(){
+      let param={
+        id: this.songId,
+        type: 0,
+        limit: 10
+      }
+      this.getCommentHot(param)
+        .then(res=>{
+          this.comments=res.hotComments
+        })
+        .catch(()=>{
+          this.$message.error('获取热门评论失败')
         })
     }
   },
@@ -279,12 +296,6 @@ export default {
     display: flex;
     justify-content: space-between;
 
-    .detail-comment {
-      width: 100%;
-      height: 900px;
-      background: #7868e6;
-    }
-
     .detail-simi {
       margin-left: 50px;
       //width: 300px;
@@ -314,6 +325,7 @@ export default {
 
           .item-image {
             width: 100%;
+            height: 100%;
             border-radius: 5px;
           }
 

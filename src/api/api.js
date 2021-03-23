@@ -36,16 +36,32 @@ export const getNewSongs = limit => iAxios.get(`/personalized/newsong?limit=${li
  * @method 获取歌曲详情
  * @param ids 音乐id，多个用逗号隔开
  */
-export const getSongDetail = ids => iAxios.get(`/song/detail?ids=${ids}`,{})
+export const getSongDetail = ids => iAxios.get(`/song/detail?ids=${ids}`, {})
 
 /**
  * @method 获取歌词
  * @param id 音乐id
  */
-export const getLyric = id => iAxios.get(`/lyric?id=${id}`,{})
+export const getLyric = id => iAxios.get(`/lyric?id=${id}`, {})
 
 /**
  * @method 获取相似音乐
  * @param id 歌曲id
  */
-export const getSimiSong = id => iAxios.get(`/simi/song?id=${id}`,{})
+export const getSimiSong = id => iAxios.get(`/simi/song?id=${id}`, {})
+
+
+/**
+ * @method 获取热门评论
+ * @param id 资源id
+ * @param type 资源类型
+ * @param limit 取出评论数量，默认为20
+ * @param ……
+ */
+export const getCommentHot = (id, type, limit) => iAxios.get(`/comment/hot?id=${id}&type=${type}&limit=${limit}`, {})
+
+/**
+ * @method 新歌速递
+ * @param type 地区类型
+ */
+export const getTopNew = type => iAxios.get(`/top/song?type=${type}`, {})

@@ -40,7 +40,7 @@ export function getSecond (time) {
     return time
 }
 
-//将秒转换成 mm:ss
+// 将秒转换成 mm:ss
 export function getMS (time) {
     if (!time) {
         return '00:00'
@@ -51,4 +51,10 @@ export function getMS (time) {
     if (m < 10) m = '0' + m;
     if (s < 10) s = '0' + s;
     return m + ':' + s;
+}
+
+// 将毫秒转换成 YY年MM月DD日
+export function getYMD(time){
+    let d= new Date(time)
+    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'
 }

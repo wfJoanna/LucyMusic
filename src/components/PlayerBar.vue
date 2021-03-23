@@ -83,18 +83,21 @@
               p-id="1253"></path>
         </svg>
       </div>
-      <el-popover ref="popover" placement="top" trigger="click" title="播放列表">
-        <div class="list-count">总共{{ playList.length ? playList.length : 0 }}首</div>
-        <div class="list-item" v-for="(item,index) of playList" :key="item.id" @mouseenter="handleEnterItem(index)"
-             @mouseleave="handleLeaveItem">
-          <div class="item-index">
-            <i class="el-icon-video-play play-icon" @click="handlePlayItem(index)"
-               v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
-            <i class="el-icon-video-pause play-icon" @click="handlePauseItem"
-               v-else-if="focusItem===index && playing"></i>
-            <span v-else>{{ index + 1 }}</span>
+      <el-popover ref="popover" placement="top" trigger="click" title="顺序播放列表">
+        <div class="list-count">总共{{ sequenceList.length ? sequenceList.length : 0 }}首</div>
+        <div class="list-content">
+          <div class="list-item" v-for="(item,index) of sequenceList" :key="item.id"
+               @mouseenter="handleEnterItem(index)"
+               @mouseleave="handleLeaveItem">
+            <div class="item-index">
+              <i class="el-icon-video-play play-icon" @click="handlePlayItem(index)"
+                 v-if="(focusItem===index && !playing)||(focusItem===index && currentSong.id!==item.id)"></i>
+              <i class="el-icon-video-pause play-icon" @click="handlePauseItem"
+                 v-else-if="focusItem===index && playing"></i>
+              <span v-else>{{ index + 1 }}</span>
+            </div>
+            <div class="item-info">{{ item.name }} - {{ item.singer }}</div>
           </div>
-          <div class="item-info">{{ item.name }} - {{ item.singer }}</div>
         </div>
       </el-popover>
     </div>
@@ -119,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['playList', 'sequenceList', 'currentIndex', 'playing', 'mode','currentTime']),
+    ...mapState(['playList', 'sequenceList', 'currentIndex', 'playing', 'mode', 'currentTime']),
     ...mapGetters(['currentSong']),
     percent () {
       if (this.currentSong.id) {
@@ -222,7 +225,7 @@ export default {
     },
     handlePlayItem (index) {
       this.selectPlay({
-        list: this.playList,
+        list: this.sequenceList,
         index
       })
     },
@@ -261,6 +264,7 @@ export default {
 
     .avatar-image {
       width: 100%;
+      height: 100%;
       border-radius: 4px;
       cursor: pointer;
     }
@@ -335,7 +339,6 @@ export default {
       width: 18px;
       cursor: pointer;
     }
-
   }
 }
 
@@ -344,23 +347,40 @@ export default {
   color: #6D7685;
 }
 
-.list-item {
-  margin: 20px 15px;
-  display: flex;
+.list-content {
+  max-height: 600px;
+  overflow: scroll;
 
-  .item-index {
-    width: 40px;
-    text-align: center;
+  .list-item {
+    margin: 20px 15px;
+    display: flex;
 
-    .play-icon {
-      font-size: larger;
-      color: #7868e6;
-      cursor: pointer;
+    .item-index {
+      width: 40px;
+      text-align: center;
+
+      .play-icon {
+        font-size: larger;
+        color: #7868e6;
+        cursor: pointer;
+      }
+    }
+
+    .item-info {
+      margin-left: 15px;
     }
   }
+}
 
-  .item-info {
-    margin-left: 15px;
-  }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+  background-color: rgba(240, 240, 240, .5);
 }
 </style>

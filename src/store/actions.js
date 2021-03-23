@@ -1,7 +1,7 @@
 import * as types from './mutationType'
 import state from './state';
 import { playMode } from '../utils/constant';
-import {shuffle} from '../utils/util';
+import { shuffle } from '../utils/util';
 import * as api from '../api/api'
 
 export default {
@@ -21,29 +21,36 @@ export default {
     pausePlay ({ commit }) {
         commit(types.SET_PLAYING_STATE, false)
     },
-    login({},param){
-        let {phone,password}=param
-        return api.login(phone,password)
+    login ({}, param) {
+        let { phone, password } = param
+        return api.login(phone, password)
     },
-    getLyric({},param){
+    getLyric ({}, param) {
         return api.getLyric(param)
     },
-    getSongDetails({},param){
+    getSongDetails ({}, param) {
         return api.getSongDetail(param)
     },
-    getNewSongs({},param){
+    getNewSongs ({}, param) {
         return api.getNewSongs(param)
     },
-    getPersonalized({},param){
+    getPersonalized ({}, param) {
         return api.getPersonalized(param)
     },
-    logout({}){
+    logout ({}) {
         return api.logout()
     },
-    getBanners({}){
+    getBanners ({}) {
         return api.getBanner()
     },
-    getSimiSong({},param){
+    getSimiSong ({}, param) {
         return api.getSimiSong(param)
+    },
+    getCommentHot ({}, param) {
+        let { id, type, limit } = param
+        return api.getCommentHot(id, type, limit)
+    },
+    getTopNew({},param){
+        return api.getTopNew(param)
     }
 }
