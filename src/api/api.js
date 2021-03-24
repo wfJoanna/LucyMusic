@@ -53,12 +53,12 @@ export const getSimiSong = id => iAxios.get(`/simi/song?id=${id}`, {})
 
 /**
  * @method 获取热门评论
- * @param id 资源id
- * @param type 资源类型
- * @param limit 取出评论数量，默认为20
- * @param ……
+ * @params id 资源id
+ * @params type 资源类型
+ * @params limit 取出评论数量，默认为20
+ * @params ……
  */
-export const getCommentHot = (id, type, limit) => iAxios.get(`/comment/hot?id=${id}&type=${type}&limit=${limit}`, {})
+export const getCommentHot = params => iAxios.get(`/comment/hot`, { params })
 
 /**
  * @method 新歌速递
@@ -76,3 +76,23 @@ export const getListDetail = id => iAxios.get(`/playlist/detail?id=${id}`, {})
  * @method 获取所有榜单
  */
 export const getTopList = () => iAxios.get(`/toplist`, {})
+
+/**
+ * @method 获取歌单分类
+ */
+export const getPlaylistCat = () => iAxios.get(`/playlist/catlist`, {})
+
+/**
+ * @method 获取热门歌单分类
+ */
+export const getPlaylistHotCat = () => iAxios.get(`/playlist/hot`, {})
+
+/**
+ * @method 获取歌单
+ * @params order new/hot
+ * @params cat tag分类，默认为全部
+ * @params limit 默认为50
+ * @params offset 偏移数量，用于分页
+ */
+export const getPlaylist = params => iAxios.get(`/top/playlist`, { params })
+

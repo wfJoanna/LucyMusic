@@ -46,11 +46,13 @@ export default {
                     songs.push(createSong(item))
                   })
                   this.chooseList = songs
-                  this.loading = false
                 })
           })
           .catch(() => {
             this.$message.error('新歌速递失败')
+          })
+          .finally(()=>{
+            this.loading=false
           })
     },
     handleTabClick () {

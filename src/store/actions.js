@@ -47,16 +47,24 @@ export default {
         return api.getSimiSong(param)
     },
     getCommentHot ({}, param) {
-        let { id, type, limit } = param
-        return api.getCommentHot(id, type, limit)
+        return api.getCommentHot(param)
     },
-    getTopNew({},param){
+    getTopNew ({}, param) {
         return api.getTopNew(param)
     },
-    getListDetail({},param){
+    getListDetail ({}, param) {
         return api.getListDetail(param)
     },
-    getTopList({}){
+    getTopList ({}) {
         return api.getTopList()
+    },
+    getPlaylistCat ({}) {
+        return api.getPlaylistCat()
+    },
+    getPlaylistHotCat ({}) {
+        return api.getPlaylistHotCat()
+    },
+    getPlaylist ({}, param) {
+        return api.getPlaylist(param)
     }
 }

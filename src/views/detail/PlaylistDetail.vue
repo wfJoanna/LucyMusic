@@ -13,7 +13,7 @@
         </div>
         <div class="third-line">
           <div>标签：</div>
-          <div class="tag" v-for="tag in tags">{{tag}}</div>
+          <div class="tag" v-for="tag in tags" @click="handleTag(tag)">{{tag}}</div>
         </div>
         <div class="description">
           <div class="short-desc">{{description}}</div>
@@ -79,12 +79,22 @@ export default {
                     songs.push(createSong(item))
                   })
                   this.playlist = songs
-                  this.loading = false
                 })
           })
           .catch(() => {
             this.$message.error('获取歌单详情失败')
           })
+          .finally(()=>{
+            this.loading=false
+          })
+    },
+    handleTag(tag){
+      this.$router.push({
+        name: 'playlist',
+        query: {
+          tag: tag
+        }
+      })
     }
   },
   mounted () {
