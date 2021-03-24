@@ -65,3 +65,14 @@ export const getCommentHot = (id, type, limit) => iAxios.get(`/comment/hot?id=${
  * @param type 地区类型
  */
 export const getTopNew = type => iAxios.get(`/top/song?type=${type}`, {})
+
+/**
+ * @method 获取歌单详情
+ * @param id 歌单id
+ */
+export const getListDetail = id => iAxios.get(`/playlist/detail?id=${id}`, {})
+
+/**
+ * @method 获取所有榜单
+ */
+export const getTopList = () => iAxios.get(`/toplist`, {})

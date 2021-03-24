@@ -52,5 +52,11 @@ export default {
     },
     getTopNew({},param){
         return api.getTopNew(param)
+    },
+    getListDetail({},param){
+        return api.getListDetail(param)
+    },
+    getTopList({}){
+        return api.getTopList()
     }
 }

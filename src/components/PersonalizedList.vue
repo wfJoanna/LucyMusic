@@ -5,7 +5,7 @@
     </div>
     <div class="list-content">
       <div class="list-item" v-for="item of lists" :key="item.id">
-        <div class="item-cover">
+        <div class="item-cover" @click="handleListDetail(item)">
           <el-image class="item-image" :key="item.picUrl" :src="item.picUrl" lazy>
             <div slot="placeholder" class="image-slot">
               加载中<span class="dot">...</span>
@@ -52,6 +52,14 @@ export default {
       this.$router.push({
         name: 'playlist'
       })
+    },
+    handleListDetail(item){
+      this.$router.push({
+        name:'playlist-detail',
+        query:{
+          id:item.id
+        }
+      })
     }
   },
   mounted () {
@@ -67,6 +75,7 @@ export default {
   .list-title {
     font-weight: bold;
     cursor: pointer;
+    margin-bottom: 15px;
   }
 
   .list-content {
@@ -103,6 +112,7 @@ export default {
           position: absolute;
           top: 10px;
           right: 10px;
+          padding-right: 5px;
         }
       }
 

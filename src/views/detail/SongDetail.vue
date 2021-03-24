@@ -12,13 +12,14 @@
           <div class="info-small">歌手：{{ this.currentSong.singer }}</div>
           <div class="info-small">专辑：{{ this.currentSong.album }}</div>
         </div>
-        <div class="detail-lyric">
+        <div class="detail-lyric" v-if="lyrics">
           <div class="lyric-move" :style="lyricTop">
             <div class="lyric-basic" :class="{'lyric-active':lyricActive(index)}" v-for="(item,index) in lyricObject"
                :key="index">{{ item }}</div>
           </div>
           <div class="lyric-cover"></div>
         </div>
+        <div class="no-lyric" v-else>~~ 没有歌词哦 ~~</div>
       </div>
     </div>
     <div class="detail-bottom">
@@ -110,8 +111,10 @@ export default {
     getSongLyrics () {
       this.getLyric(this.songId)
           .then(res => {
-            this.lyrics = res.lrc.lyric
-            this.splitLyrics()
+            if(res.lrc){
+              this.lyrics = res.lrc.lyric
+              this.splitLyrics()
+            }
           })
           .catch(() => {
             this.$message.error('获取歌词失败')
@@ -287,6 +290,14 @@ export default {
           height: 100%;
           background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
         }
+      }
+
+      .no-lyric{
+        margin: 30px 0;
+        //text-align: center;
+        padding: 10px 20px;
+        height: 360px;
+        color: darkgray;
       }
     }
   }
