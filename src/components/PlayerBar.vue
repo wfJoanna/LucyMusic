@@ -84,7 +84,7 @@
         </svg>
       </div>
       <el-popover ref="popover" placement="top" trigger="click" title="顺序播放列表">
-        <div class="list-count">总共{{ sequenceList.length ? sequenceList.length : 0 }}首</div>
+        <div class="list-count">总共{{ sequenceList.length || 0 }}首</div>
         <div class="list-content">
           <div class="list-item" v-for="(item,index) of sequenceList" :key="item.id"
                @mouseenter="handleEnterItem(index)"

@@ -60,7 +60,9 @@
       </li>
     </ul>
     <div class="search">
-      <el-button icon="el-icon-search" circle></el-button>
+      <el-input size="small" v-model="search" placeholder="搜索" @keyup.enter.native="handleSearch">
+        <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+      </el-input>
     </div>
     <div class="user-box">
       <div class="is-login" v-if="userInfo">
@@ -86,6 +88,11 @@ import * as types from '../store/mutationType'
 
 export default {
   name: "MyHeader",
+  data(){
+    return{
+      search:''
+    }
+  },
   computed: {
     ...mapState(['userInfo'])
   },
@@ -118,6 +125,16 @@ export default {
               this.$message.error('退出登录失败')
             })
 
+      }
+    },
+    handleSearch(){
+      if(this.search){
+        this.$router.push({
+          name: 'search',
+          query: {
+            wd: this.search
+          }
+        })
       }
     }
   }

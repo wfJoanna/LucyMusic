@@ -83,6 +83,15 @@ export const appRouter = [
                 },
                 name: 'playlist-detail',
                 component: () => import(/* webpackChunkName: "PlaylistDetail" */ '../views/detail/PlaylistDetail')
+            },
+            {
+                path: 'search',
+                meta: {
+                    title: '搜索',
+                    keepAlive: true
+                },
+                name: 'search',
+                component: () => import(/* webpackChunkName: "search" */ '../views/search/search')
             }
         ]
     }

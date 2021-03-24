@@ -96,3 +96,11 @@ export const getPlaylistHotCat = () => iAxios.get(`/playlist/hot`, {})
  */
 export const getPlaylist = params => iAxios.get(`/top/playlist`, { params })
 
+/**
+ * @method 搜索
+ * @params keywords 关键词
+ * @params limit 默认为30
+ * @params offset 分页
+ * @params type 搜索类型，默认为1即单曲
+ */
+export const search = params => iAxios.get(`/cloudsearch`, { params })

@@ -66,5 +66,8 @@ export default {
     },
     getPlaylist ({}, param) {
         return api.getPlaylist(param)
+    },
+    search ({}, param) {
+        return api.search(param)
     }
 }

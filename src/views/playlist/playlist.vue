@@ -22,24 +22,7 @@
     <div class="middle" v-loading="loading"
          element-loading-text="拼命加载中"
          element-loading-spinner="el-icon-loading">
-      <div class="list-item" v-for="item of playlists" :key="item.id">
-        <div class="item-cover" @click="handleListDetail(item)">
-          <el-image class="item-image" :src="item.coverImgUrl" lazy>
-            <div slot="placeholder" class="image-slot">
-              加载中<span class="dot">...</span>
-            </div>
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-          <div class="item-count">
-            <i class="el-icon-caret-right"></i><span>{{ getPlayCount(item) }}</span>
-          </div>
-        </div>
-        <div class="item-info">
-          <span>{{ item.name }}</span>
-        </div>
-      </div>
+      <play-list :lists="playlists"></play-list>
     </div>
     <div class="bottom">
       <el-pagination background layout="total,prev,pager,next" :page-size="40" :total="total"
@@ -51,9 +34,11 @@
 
 <script>
 import { mapActions } from 'vuex';
+import PlayList from '../../components/PlayList';
 
 export default {
   name: "playlist",
+  components: { PlayList },
   data () {
     return {
       options: [],
@@ -63,7 +48,7 @@ export default {
       playlists: [],
       total: 0,
       currentPage: 1,
-      loading:false
+      loading: false
     }
   },
   watch: {
@@ -77,8 +62,8 @@ export default {
   methods: {
     ...mapActions(['getPlaylistCat', 'getPlaylistHotCat', 'getPlaylist']),
     getLists () {
-      this.playlists=[]
-      this.loading=true
+      this.playlists = []
+      this.loading = true
       let query = {
         limit: 40
       }
@@ -95,27 +80,16 @@ export default {
           .catch(() => {
             this.$message.error('获取歌单失败')
           })
-          .finally(()=>{
-            this.loading=false
+          .finally(() => {
+            this.loading = false
           })
-    },
-    handleListDetail (item) {
-      this.$router.push({
-        name: 'playlist-detail',
-        query: {
-          id: item.id
-        }
-      })
-    },
-    getPlayCount (item) {
-      return item.playCount < 10000 ? item.playCount : Math.floor(item.playCount / 10000) + '万'
     },
     handleCurrentChange () {
       this.getLists()
     }
   },
   mounted () {
-    this.category=this.$route.query.tag
+    this.category = this.$route.query.tag
     this.getPlaylistCat()
         .then(res => {
           let options = []
@@ -168,53 +142,11 @@ export default {
   }
 
   .middle {
-    display: flex;
-    flex-wrap: wrap;
     margin-bottom: 30px;
     margin-top: 30px;
-
-    .list-item {
-      flex: 0 0 12.5%;
-      padding: 15px;
-      max-width: 12.5%;
-
-      .item-cover {
-        cursor: pointer;
-        background-color: #d9d9d9;
-        border-radius: 4px;
-        color: white;
-        position: relative; /*只是为了设置z-index而已*/
-
-        &:hover {
-          -webkit-filter: opacity(50%);
-          filter: opacity(50%);
-        }
-
-        .item-image {
-          position: relative;
-          top: 4px;
-          right: 4px;
-          border-radius: 4px;
-          vertical-align: top;
-        }
-
-        .item-count {
-          background: black;
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          padding-right: 5px;
-        }
-      }
-
-      .item-info {
-        margin-top: 15px;
-        font-size: 14px;
-      }
-    }
   }
 
-  .bottom{
+  .bottom {
     text-align: center;
     margin-bottom: 30px;
   }
