@@ -55,7 +55,7 @@ export default {
       })
     },
     getPersonalizedSong () {
-      this.getNewSongs(9)
+      this.getNewSongs(12)
           .then(res => {
             let idArr=[]
             res.result.map(item=>{

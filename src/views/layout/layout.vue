@@ -16,5 +16,8 @@ export default {
   min-height: calc(100vh - 100px);
   padding-left: 70px;
   padding-right: 70px;
+
+  background: url(../../assets/lucybg.png) no-repeat fixed right;
+  background-size: 280px
 }
 </style>
