@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["song"],{"3ec8":function(n,e,s){"use strict";s.r(e);var t=function(){var n=this,e=n.$createElement,s=n._self._c||e;return s("div",{staticClass:"song"})},a=[],c={name:"song"},o=c,i=s("2877"),l=Object(i["a"])(o,t,a,!1,null,"04b85818",null);e["default"]=l.exports}}]);
-//# sourceMappingURL=song.14d60e7a.js.map
