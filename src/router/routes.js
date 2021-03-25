@@ -28,7 +28,7 @@ export const appRouter = [
             title: '首页',
             keepAlive: true
         },
-        component: () => import(/* webpackChunkName: "layout" */ '../views/layout/layout'),
+        component: layout,
         children: [
             {
                 path: 'home',

@@ -1,12 +1,17 @@
 <template>
-  <div class="layout">
+  <div class="layout" :style="{backgroundImage:'url('+pic+')'}">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: "layout"
+  name: "layout",
+  data () {
+    return {
+      pic: require('../../assets/lucybg.png')
+    }
+  }
 }
 </script>
 
@@ -17,7 +22,7 @@ export default {
   padding-left: 70px;
   padding-right: 70px;
 
-  background: url(../../assets/lucybg.png) no-repeat fixed right;
+  background: no-repeat fixed right;
   background-size: 280px;
 }
 </style>
