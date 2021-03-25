@@ -17,7 +17,7 @@ export default {
   padding-left: 70px;
   padding-right: 70px;
 
-  background: url(../../assets/lucybg.png) no-repeat fixed right;
+  background: url(../../assets/images/lucybg.png) no-repeat fixed right;
   background-size: 280px
 }
 </style>
