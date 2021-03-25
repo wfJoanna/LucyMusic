@@ -17,4 +17,4 @@ new Vue({
     render: h => h(App)
 }).$mount('#app')
 
-console.log('放回assets')
+console.log('两个前面都加了点')

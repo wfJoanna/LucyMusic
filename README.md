@@ -106,3 +106,7 @@ Lucy之名取自《Steel Ball Run》里的勇敢女性Lucy Steel
     - 怎么实现歌单简介到了第三行自动变成省略号呢？我居然现在才发现有个叫-webkit-box的东西
     - 一定要记住！mapAction的method是异步执行的！像设置loading这种，要把它放在finally里面修改，放在method后面的话瞬间就改成false了，约等于没有loading效果
     - 像分页这种，切换然后请求的时候，要先把现有的数组清空，配合v-loading，这样切页的效果才明显
+- 2021.3.25
+  - 完成：添加背景图片
+  - 遇到困难：
+    - 部署到github pages后背景图片不显示。就明明加载出来了，结果瞬间消失，然后控制台还报错404（顺带一提，serve是个好东西，可以本地预览dist打包后的效果，本地要看的时候就可以直接一个命令解决，不用慢吞吞地等待npm run serve之后还要把api npm start，因为生产环境是直接访问部署在vercel的服务器。命令为`serve -s dist`，本地预览就是非常迅速）
