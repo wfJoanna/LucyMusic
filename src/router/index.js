@@ -21,8 +21,9 @@ Vue.use(VueRouter)
 // ]
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
+    // mode: 'history',
+    // base: process.env.BASE_URL,
+    // 不能用history模式，否则一刷新就404
     routes,
     scrollBehavior () {
         return { x: 0, y: 0 }
