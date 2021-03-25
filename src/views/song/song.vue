@@ -67,8 +67,6 @@ export default {
 
 <style lang="scss" scoped>
 .song {
-  background: url(../../assets/lucybg.png) no-repeat fixed right;
-  background-size: 280px;
   .song-title {
     font-weight: bold;
     margin-bottom: 15px;
