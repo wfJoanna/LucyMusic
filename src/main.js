@@ -17,4 +17,4 @@ new Vue({
     render: h => h(App)
 }).$mount('#app')
 
-console.log('两个前面都加了点')
+console.log('只要./')
