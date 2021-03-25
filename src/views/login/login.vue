@@ -128,7 +128,7 @@ export default {
   justify-content: center;
   align-items: center;
   //background: #413c69;
-  background: #413c69 url(../../assets/images/lgbg.png) no-repeat;
+  background: #413c69 url(../../../public/lgbg.png) no-repeat;
   background-size: 600px;
 
   .login-card {
