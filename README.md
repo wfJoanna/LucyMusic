@@ -109,4 +109,4 @@ Lucy之名取自《Steel Ball Run》里的勇敢女性Lucy Steel
 - 2021.3.25
   - 完成：添加背景图片
   - 遇到困难：
-    - 部署到github pages后背景图片不显示。就明明加载出来了，结果瞬间消失，然后控制台还报错404，一看他请求了两张图，一张图路径是错的直接是‘https://wfJoanna.github.io/img/...’，另一张路径就对了。最后呢是给它require了才正常显示了，但是我还是不懂为什么layout这张背景图就必须require才能正常显示，而login那张背景图就不用，不都是放在assets文件夹下吗？迷惑（顺带一提，serve是个好东西，可以本地预览dist打包后的效果，本地要看的时候就可以直接一个命令解决，不用慢吞吞地等待npm run serve之后还要把api npm start，因为生产环境是直接访问部署在vercel的服务器。命令为`serve -s dist`，本地预览就是非常迅速）
+    - 部署到github pages后背景图片不显示。就明明加载出来了，结果瞬间消失，然后控制台还报错404，一看他请求了两张图，一张图路径是错的直接是‘https://wfJoanna.github.io/img/...’，另一张路径就对了。最后呢是给它require了才正常显示了，但是我还是不懂为什么layout这张背景图就必须require才能正常显示，而login那张背景图就不用，不都是放在assets文件夹下吗？迷惑
