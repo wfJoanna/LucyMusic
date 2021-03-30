@@ -58,6 +58,15 @@ export const appRouter = [
                 component: () => import(/* webpackChunkName: "rank" */ '../views/rank/rank')
             },
             {
+                path: 'singer',
+                meta: {
+                    title: '歌手',
+                    keepAlive: true
+                },
+                name: 'singer',
+                component: () => import(/* webpackChunkName: "singer" */ '../views/singer/singer')
+            },
+            {
                 path: 'song',
                 meta: {
                     title: '最新音乐',
@@ -83,6 +92,24 @@ export const appRouter = [
                 },
                 name: 'playlist-detail',
                 component: () => import(/* webpackChunkName: "PlaylistDetail" */ '../views/detail/PlaylistDetail')
+            },
+            {
+                path: 'singer-detail',
+                meta: {
+                    title: '歌手详情',
+                    keepAlive: true
+                },
+                name: 'singer-detail',
+                component: () => import(/* webpackChunkName: "SingerDetail" */ '../views/detail/SingerDetail')
+            },
+            {
+                path: 'album-detail',
+                meta: {
+                    title: '专辑详情',
+                    keepAlive: true
+                },
+                name: 'album-detail',
+                component: () => import(/* webpackChunkName: "AlbumDetail" */ '../views/detail/AlbumDetail')
             },
             {
                 path: 'search',

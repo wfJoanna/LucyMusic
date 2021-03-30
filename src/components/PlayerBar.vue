@@ -368,6 +368,7 @@ export default {
 
     .item-info {
       margin-left: 15px;
+      max-width: 600px;
     }
   }
 }

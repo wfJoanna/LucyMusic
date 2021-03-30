@@ -56,6 +56,9 @@
         <router-link :to="{ name: 'rank' }" tag="a">排行榜</router-link>
       </li>
       <li>
+        <router-link :to="{ name: 'singer' }" tag="a">歌手</router-link>
+      </li>
+      <li>
         <router-link :to="{ name: 'song' }" tag="a">最新音乐</router-link>
       </li>
     </ul>

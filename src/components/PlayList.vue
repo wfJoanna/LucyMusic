@@ -10,7 +10,7 @@
             <i class="el-icon-picture-outline"></i>
           </div>
         </el-image>
-        <div class="item-count">
+        <div class="item-count" v-if="item.playCount">
           <i class="el-icon-caret-right"></i><span>{{ getPlayCount(item) }}</span>
         </div>
       </div>
@@ -31,15 +31,29 @@ export default {
         return []
       }
     },
+    type:{
+      type:String,
+      default:'playlist'
+    }
   },
   methods:{
     handleListDetail(item){
-      this.$router.push({
-        name:'playlist-detail',
-        query:{
-          id:item.id
-        }
-      })
+      if(this.type==='album'){
+        this.$router.push({
+          name:'album-detail',
+          query:{
+            id:item.id
+          }
+        })
+      }
+      else{
+        this.$router.push({
+          name:'playlist-detail',
+          query:{
+            id:item.id
+          }
+        })
+      }
     },
     getPlayCount (item) {
       return item.playCount < 10000 ? item.playCount : Math.floor(item.playCount / 10000)+'万'

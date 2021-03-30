@@ -104,3 +104,33 @@ export const getPlaylist = params => iAxios.get(`/top/playlist`, { params })
  * @params type 搜索类型，默认为1即单曲
  */
 export const search = params => iAxios.get(`/cloudsearch`, { params })
+
+/**
+ * @method 歌手列表
+ * @params limit
+ * @params offset
+ * @params type
+ * @params area
+ * @params initial
+ */
+export const getArtistList = params => iAxios.get(`/artist/list`, { params })
+
+/**
+ * @method 歌手热门歌曲50首
+ * @param id 歌手id
+ */
+export const getSingerHotSong = id => iAxios.get(`/artist/top/song?id=${id}`, {})
+
+/**
+ * @method 获取歌手详情
+ * @param id 歌手id
+ */
+export const getSingerDetail = id => iAxios.get(`/artist/detail?id=${id}`, {})
+
+/**
+ * @method 获取歌手专辑
+ * @params id
+ * @params limit
+ * @params offset
+ */
+export const getSingerAlbum = params => iAxios.get(`/artist/album`, { params })

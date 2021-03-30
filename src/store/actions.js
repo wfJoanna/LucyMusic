@@ -69,5 +69,17 @@ export default {
     },
     search ({}, param) {
         return api.search(param)
+    },
+    getArtistList({},param){
+        return api.getArtistList(param)
+    },
+    getSingerHotSong({},param){
+        return api.getSingerHotSong(param)
+    },
+    getSingerDetail({},param){
+        return api.getSingerDetail(param)
+    },
+    getSingerAlbum({},param){
+        return api.getSingerAlbum(param)
     }
 }

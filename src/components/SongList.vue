@@ -75,6 +75,7 @@ export default {
 
     .item-index {
       width: 50px;
+      //text-align: center;
       margin-right: 10px;
     }
 
