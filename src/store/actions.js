@@ -81,5 +81,8 @@ export default {
     },
     getSingerAlbum({},param){
         return api.getSingerAlbum(param)
+    },
+    getAlbum({},param){
+        return api.getAlbum(param)
     }
 }

@@ -17,7 +17,7 @@
       <el-tab-pane label="歌手详情" name="desc"></el-tab-pane>
     </el-tabs>
     <div v-if="activePane==='hot'">
-      <song-list :song-list="songList"></song-list>
+      <song-list :song-list="songList" :loading="songLoading"></song-list>
     </div>
     <div v-else-if="activePane==='album'">
       <load-more @scroll-state="getAlbum">
@@ -57,12 +57,14 @@ export default {
       albums: [],
       loading: false,
       noLoading: false,
-      noMore: false
+      noMore: false,
+      songLoading:false
     }
   },
   methods: {
     ...mapActions(['getSingerHotSong', 'getSingerDetail', 'getSongDetails', 'getSingerAlbum']),
     getHotSongs () {
+      this.songLoading=true
       this.getSingerHotSong(this.singerId)
           .then(res => {
             let newArr = []
@@ -81,6 +83,9 @@ export default {
           })
           .catch(() => {
             this.$message.error('获取歌手热门50首歌曲失败')
+          })
+          .finally(()=>{
+            this.songLoading=false
           })
     },
     getDetail () {
@@ -177,7 +182,7 @@ export default {
     text-indent: 35px;
     letter-spacing: 2px;
     text-align: justify;
-    line-height: 150%;
+    line-height: 170%;
   }
 }
 </style>

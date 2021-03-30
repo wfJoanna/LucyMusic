@@ -134,3 +134,9 @@ export const getSingerDetail = id => iAxios.get(`/artist/detail?id=${id}`, {})
  * @params offset
  */
 export const getSingerAlbum = params => iAxios.get(`/artist/album`, { params })
+
+/**
+ * @method 获取专辑内容
+ * @param id 专辑id
+ */
+export const getAlbum=id=>iAxios.get(`/album?id=${id}`,{})
