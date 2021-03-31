@@ -1,6 +1,7 @@
 <template>
   <li class="singer-item">
-    <el-image class="avatar" :src="item.picUrl" lazy @click.native="handleSinger"></el-image>
+    <el-image class="avatar" :src="item.picUrl||'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
+              lazy @click.native="handleSinger" :fit="'cover'"></el-image>
     <span class="name" @click="handleSinger">{{ item.name }}</span>
   </li>
 </template>
@@ -14,11 +15,11 @@ export default {
     }
   },
   methods: {
-    handleSinger(){
+    handleSinger () {
       this.$router.push({
-        name:'singer-detail',
-        query:{
-          id:this.item.id
+        name: 'singer-detail',
+        query: {
+          id: this.item.id
         }
       })
     }
@@ -44,9 +45,11 @@ export default {
     margin-bottom: 10px;
     cursor: pointer;
   }
-  .name{
+
+  .name {
     cursor: pointer;
-    &:hover{
+
+    &:hover {
       color: #7868e6;
     }
   }

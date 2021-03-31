@@ -2,7 +2,7 @@
   <div class="playlist-detail">
     <div class="detail-top">
       <div class="top-cover">
-        <el-image class="cover-image" :src="coverUrl" lazy></el-image>
+        <el-image class="cover-image" :src="coverUrl" :fit="'cover'" lazy></el-image>
       </div>
       <div class="top-info">
         <div class="first-line">{{ title }}</div>

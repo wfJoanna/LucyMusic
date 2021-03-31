@@ -1,7 +1,7 @@
 <template>
   <div class="singer-detail">
     <div class="top">
-      <el-image class="cover" :src="detail.cover" :fit="'scale-down'"></el-image>
+      <el-image class="cover" :src="detail.cover || 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png'" :fit="'cover'"></el-image>
       <div class="info">
         <div class="first-line">{{ detail.name }}</div>
         <div class="second-line" v-if="detail.transNames">{{ detail.transNames[0] }}</div>
@@ -142,7 +142,7 @@ export default {
     .cover {
       width: 220px;
       height: 220px;
-      border: 1px solid #6D7685;
+      border-radius: 5px;
       margin-right: 20px;
     }
 

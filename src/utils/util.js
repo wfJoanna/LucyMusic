@@ -22,7 +22,8 @@ export function createSong (data) {
         name: data.name,
         duration: getSecond(data.dt),
         image: data.al.picUrl,
-        album: data.al.name
+        album: data.al.name,
+        albumId: data.al.id
     }
 }
 
@@ -54,7 +55,7 @@ export function getMS (time) {
 }
 
 // 将毫秒转换成 YY年MM月DD日
-export function getYMD(time){
-    let d= new Date(time)
-    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'
+export function getYMD (time) {
+    let d = new Date(time)
+    return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日'
 }

@@ -13,7 +13,7 @@
       </div>
       <div class="item-name">{{ item.name }}</div>
       <div class="item-singer">{{ item.singer }}</div>
-      <div class="item-album">{{ item.album }}</div>
+      <div class="item-album" @click="handleAlbumDetail(item)">{{ item.album }}</div>
       <div class="item-duration">{{ toGetMS(item.duration) }}</div>
     </div>
   </div>
@@ -58,6 +58,14 @@ export default {
     },
     toGetMS (s) {
       return getMS(s)
+    },
+    handleAlbumDetail(item){
+      this.$router.push({
+        name:'album-detail',
+        query:{
+          id:item.albumId
+        }
+      })
     }
   }
 }
@@ -124,6 +132,11 @@ export default {
     .item-album {
       width: 200px;
       margin: 0 10px;
+      cursor: pointer;
+
+      &:hover{
+        color: #7868e6;
+      }
     }
 
     .item-duration {

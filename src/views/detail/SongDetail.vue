@@ -10,7 +10,7 @@
         <div class="detail-info">
           <div class="info-big">{{ this.currentSong.name }}</div>
           <div class="info-small">歌手：{{ this.currentSong.singer }}</div>
-          <div class="info-small">专辑：{{ this.currentSong.album }}</div>
+          <div class="info-small">专辑：<span class="album-h" @click="handleAlbumDetail">{{ this.currentSong.album }}</span></div>
         </div>
         <div class="detail-lyric" v-if="lyrics">
           <div class="lyric-move" :style="lyricTop">
@@ -197,6 +197,14 @@ export default {
         .catch(()=>{
           this.$message.error('获取热门评论失败')
         })
+    },
+    handleAlbumDetail(){
+      this.$router.push({
+        name:'album-detail',
+        query:{
+          id:this.currentSong.albumId
+        }
+      })
     }
   },
   mounted () {
@@ -256,6 +264,13 @@ export default {
         .info-small {
           font-size: small;
           margin-bottom: 10px;
+
+          .album-h{
+            cursor: pointer;
+            &:hover{
+              color: #7868e6;
+            }
+          }
         }
       }
 
