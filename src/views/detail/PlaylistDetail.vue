@@ -7,18 +7,18 @@
       <div class="top-info">
         <div class="first-line">{{ title }}</div>
         <div class="second-line">
-          <el-avatar class="avatar" :src="avatar"></el-avatar>
-          <span class="text">{{ creator }}</span>
+          <el-avatar class="avatar" @click.native="handleUser" :src="avatar"></el-avatar>
+          <span class="user-name" @click="handleUser">{{ creator }}</span>
           <span class="text">{{ time }}创建</span>
         </div>
         <div class="third-line">
           <div>标签：</div>
-          <div class="tag" v-for="tag in tags" @click="handleTag(tag)">{{tag}}</div>
+          <div class="tag" v-for="tag in tags" @click="handleTag(tag)">{{ tag }}</div>
         </div>
         <div class="description">
-          <div class="short-desc">{{description}}</div>
+          <div class="short-desc">{{ description }}</div>
           <el-button type="text" @click="dialogVisible=true">全部<i class="el-icon-arrow-right"></i></el-button>
-          <el-dialog :title="title" :visible.sync="dialogVisible">{{description}}</el-dialog>
+          <el-dialog :title="title" :visible.sync="dialogVisible">{{ description }}</el-dialog>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@ export default {
       listId: '',
       playlist: [],
       loading: false,
-      dialogVisible:false,
+      dialogVisible: false,
 
       coverUrl: '',
       title: '',
@@ -49,7 +49,8 @@ export default {
       avatar: '',
       time: '',
       tags: [],
-      description:''
+      description: '',
+      creatorId: ''
     }
   },
   methods: {
@@ -65,7 +66,8 @@ export default {
             this.avatar = p.creator.avatarUrl
             this.time = getYMD(p.createTime)
             this.tags = p.tags
-            this.description=p.description
+            this.description = p.description
+            this.creatorId = p.creator.userId
 
             let songArr = []
             p.trackIds.map(item => {
@@ -84,15 +86,23 @@ export default {
           .catch(() => {
             this.$message.error('获取歌单详情失败')
           })
-          .finally(()=>{
-            this.loading=false
+          .finally(() => {
+            this.loading = false
           })
     },
-    handleTag(tag){
+    handleTag (tag) {
       this.$router.push({
         name: 'playlist',
         query: {
           tag: tag
+        }
+      })
+    },
+    handleUser () {
+      this.$router.push({
+        name: 'user-detail',
+        query: {
+          id: this.creatorId
         }
       })
     }
@@ -112,6 +122,7 @@ export default {
 
     .top-cover {
       margin-right: 20px;
+
       .cover-image {
         width: 200px;
         height: 200px;
@@ -134,6 +145,16 @@ export default {
 
         .avatar {
           margin-right: 5px;
+          cursor: pointer;
+        }
+
+        .user-name {
+          margin-right: 10px;
+          cursor: pointer;
+
+          &:hover {
+            color: #7868e6;
+          }
         }
 
         .text {
@@ -145,7 +166,8 @@ export default {
         display: flex;
         align-items: center;
         margin-bottom: 10px;
-        .tag{
+
+        .tag {
           background: #7868e6;
           border-radius: 15px;
           font-size: 12px;
@@ -155,11 +177,13 @@ export default {
           margin: 0 3px;
         }
       }
-      .description{
+
+      .description {
         font-size: small;
         white-space: pre-wrap;
         line-height: 20px;
-        .short-desc{
+
+        .short-desc {
           display: -webkit-box;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;

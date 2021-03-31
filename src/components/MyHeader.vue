@@ -116,7 +116,12 @@ export default {
     },
     handleCommand (command) {
       if (command === 'user') {
-        alert('还没做')
+        this.$router.push({
+          name:'user-detail',
+          query:{
+            id:this.userInfo.userId
+          }
+        })
       } else if (command === 'exit') {
         this.logout()
             .then(() => {

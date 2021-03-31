@@ -112,6 +112,15 @@ export const appRouter = [
                 component: () => import(/* webpackChunkName: "AlbumDetail" */ '../views/detail/AlbumDetail')
             },
             {
+                path: 'user-detail',
+                meta: {
+                    title: '用户详情',
+                    keepAlive: true
+                },
+                name: 'user-detail',
+                component: () => import(/* webpackChunkName: "UserDetail" */ '../views/detail/UserDetail')
+            },
+            {
                 path: 'search',
                 meta: {
                     title: '搜索',
