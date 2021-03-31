@@ -84,5 +84,8 @@ export default {
     },
     getAlbum({},param){
         return api.getAlbum(param)
+    },
+    getAllComments({},param){
+        return api.getAllComments(param)
     }
 }

@@ -140,3 +140,12 @@ export const getSingerAlbum = params => iAxios.get(`/artist/album`, { params })
  * @param id 专辑id
  */
 export const getAlbum=id=>iAxios.get(`/album?id=${id}`,{})
+
+/**
+ * @method 获取歌曲所有评论
+ * @params id 音乐id
+ * @params limit 默认为20
+ * @params offset
+ * @params before
+ */
+export const getAllComments=params=>iAxios.get(`/comment/music`,{params})

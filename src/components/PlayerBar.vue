@@ -83,7 +83,7 @@
               p-id="1253"></path>
         </svg>
       </div>
-      <el-popover ref="popover" placement="top" trigger="click" title="顺序播放列表">
+      <el-popover ref="popover" placement="top" trigger="click" title="当前播放列表">
         <div class="list-count">总共{{ sequenceList.length || 0 }}首</div>
         <div class="list-content">
           <div class="list-item" v-for="(item,index) of sequenceList" :key="item.id"
@@ -344,7 +344,7 @@ export default {
 
 .list-count {
   font-size: smaller;
-  color: #6D7685;
+  color: #909399;
 }
 
 .list-content {

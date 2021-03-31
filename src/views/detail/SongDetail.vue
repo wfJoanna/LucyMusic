@@ -10,12 +10,15 @@
         <div class="detail-info">
           <div class="info-big">{{ this.currentSong.name }}</div>
           <div class="info-small">歌手：{{ this.currentSong.singer }}</div>
-          <div class="info-small">专辑：<span class="album-h" @click="handleAlbumDetail">{{ this.currentSong.album }}</span></div>
+          <div class="info-small">专辑：<span class="album-h" @click="handleAlbumDetail">{{
+              this.currentSong.album
+            }}</span></div>
         </div>
         <div class="detail-lyric" v-if="lyrics">
           <div class="lyric-move" :style="lyricTop">
             <div class="lyric-basic" :class="{'lyric-active':lyricActive(index)}" v-for="(item,index) in lyricObject"
-               :key="index">{{ item }}</div>
+                 :key="index">{{ item }}
+            </div>
           </div>
           <div class="lyric-cover"></div>
         </div>
@@ -23,7 +26,28 @@
       </div>
     </div>
     <div class="detail-bottom">
-      <comments :comments="comments"></comments>
+      <div class="comments">
+        <div class="hot-comment">
+          <div class="hot-title">精彩评论</div>
+          <comments :comments="hotComments" :loading="hotLoading"></comments>
+          <div class="has-more">
+            <el-button class="more-btn" v-if="hasMoreHot" @click="handleMoreHot">更多精彩评论<i
+                class="el-icon-arrow-right"></i></el-button>
+          </div>
+          <el-dialog :title="'精彩评论'" :visible.sync="dialogVisible">
+            <comments :comments="hotTotal" :loading="hotTotalLoading"></comments>
+          </el-dialog>
+        </div>
+        <div class="new-comment">
+          <div class="new-title">最新评论（{{ newTotalCount }}）</div>
+          <comments :comments="newComments" :loading="newLoading"></comments>
+          <div class="new-bottom">
+            <el-pagination background layout="prev,pager,next,jumper" :page-size="10" :total="newTotalCount"
+                           @current-change="handleCurrentChange"
+                           :current-page.sync="currentPage"></el-pagination>
+          </div>
+        </div>
+      </div>
       <div class="detail-simi">
         <div class="simi-title">相似歌曲</div>
         <div class="simi-item" @mouseenter="handleSimiEnter(index)" @mouseleave="handleSimiLeave"
@@ -45,7 +69,7 @@
 </template>
 
 <script>
-import { getSinger, createSong,getYMD } from '../../utils/util'
+import { getSinger, createSong, getYMD } from '../../utils/util'
 import { mapActions, mapGetters, mapState } from 'vuex';
 import Comments from '../../components/Comments';
 
@@ -86,6 +110,8 @@ export default {
   watch: {
     songId () {
       this.initialize()
+      this.currentPage=1
+      this.hotTotal=[]
     },
     playing () {
       this.turnOrStop()
@@ -95,15 +121,29 @@ export default {
     return {
       lyrics: '',
       lyricObject: {},
-      comments:[],
+
+      hotComments: [],
+      hasMoreHot: false,
+      hotTotal: [],
+      hotTotalCount: 0,
+      hotLoading: false,
+      hotTotalLoading: false,
+
+      newComments: [],
+      newTotalCount: 0,
+      currentPage: 1,
+      newLoading: false,
+
       simiSongs: [],
-      showBtn: -1
+      showBtn: -1,
+      dialogVisible: false
     }
   },
   methods: {
-    ...mapActions(['getLyric', 'getSongDetails', 'getSimiSong', 'selectPlay','getCommentHot']),
+    ...mapActions(['getLyric', 'getSongDetails', 'getSimiSong', 'selectPlay', 'getCommentHot', 'getAllComments']),
     initialize () {
       this.getHotComments()
+      this.getNewComments()
       this.getSongLyrics()
       this.getSimiSongs()
       this.turnOrStop()
@@ -111,7 +151,7 @@ export default {
     getSongLyrics () {
       this.getLyric(this.songId)
           .then(res => {
-            if(res.lrc){
+            if (res.lrc) {
               this.lyrics = res.lrc.lyric
               this.splitLyrics()
             }
@@ -164,47 +204,95 @@ export default {
       this.showBtn = -1
     },
     handlePlaySimi (index) {
-      let simiArr=[]
-      this.simiSongs.map(item=>{
+      let simiArr = []
+      this.simiSongs.map(item => {
         simiArr.push(item.id)
       })
-      let simiString=simiArr.join(',')
+      let simiString = simiArr.join(',')
       this.getSongDetails(simiString)
-        .then(res=>{
-          let songs = []
-          res.songs.map(item => {
-            songs.push(createSong(item))
+          .then(res => {
+            let songs = []
+            res.songs.map(item => {
+              songs.push(createSong(item))
+            })
+            this.selectPlay({
+              list: songs,
+              index
+            })
           })
-          this.selectPlay({
-            list: songs,
-            index
+          .catch(() => {
+            this.$message.error('切换失败')
           })
-        })
-        .catch(()=>{
-          this.$message.error('切换失败')
-        })
     },
-    getHotComments(){
-      let param={
+    getHotComments () {
+      this.hotLoading = true
+      let param = {
         id: this.songId,
         type: 0,
         limit: 10
       }
       this.getCommentHot(param)
-        .then(res=>{
-          this.comments=res.hotComments
-        })
-        .catch(()=>{
-          this.$message.error('获取热门评论失败')
-        })
+          .then(res => {
+            this.hotComments = res.hotComments
+            this.hasMoreHot = res.hasMore
+            this.hotTotalCount = res.total
+          })
+          .catch(() => {
+            this.$message.error('获取热门评论失败')
+          })
+          .finally(() => {
+            this.hotLoading = false
+          })
     },
-    handleAlbumDetail(){
+    handleAlbumDetail () {
       this.$router.push({
-        name:'album-detail',
-        query:{
-          id:this.currentSong.albumId
+        name: 'album-detail',
+        query: {
+          id: this.currentSong.albumId
         }
       })
+    },
+    handleMoreHot () {
+      this.dialogVisible = true
+      this.hotTotalLoading = true
+      let param = {
+        id: this.songId,
+        type: 0,
+        limit: this.hotTotalCount
+      }
+      this.getCommentHot(param)
+          .then(res => {
+            this.hotTotal = res.hotComments
+          })
+          .catch(() => {
+            this.$message.error('获取热门评论失败')
+          })
+          .finally(() => {
+            this.hotTotalLoading = false
+          })
+    },
+    getNewComments () {
+      this.newLoading = true
+      this.newComments = []
+      let param = {
+        id: this.songId,
+        limit: 10,
+        offset: (this.currentPage - 1) * 10
+      }
+      this.getAllComments(param)
+          .then(res => {
+            this.newComments = res.comments
+            this.newTotalCount = res.total
+          })
+          .catch(() => {
+            this.$message.error('获取最新评论失败')
+          })
+          .finally(() => {
+            this.newLoading = false
+          })
+    },
+    handleCurrentChange () {
+      this.getNewComments()
     }
   },
   mounted () {
@@ -265,9 +353,10 @@ export default {
           font-size: small;
           margin-bottom: 10px;
 
-          .album-h{
+          .album-h {
             cursor: pointer;
-            &:hover{
+
+            &:hover {
               color: #7868e6;
             }
           }
@@ -288,8 +377,8 @@ export default {
           transition: top 1s;
           //top:-37px;
 
-          .lyric-basic{
-            height:37px;
+          .lyric-basic {
+            height: 37px;
           }
 
           .lyric-active {
@@ -307,7 +396,7 @@ export default {
         }
       }
 
-      .no-lyric{
+      .no-lyric {
         margin: 30px 0;
         //text-align: center;
         padding: 10px 20px;
@@ -321,6 +410,40 @@ export default {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
+
+    .comments {
+      width: 100%;
+      .hot-comment {
+        margin: 30px 0;
+
+        .hot-title {
+          font-weight: bold;
+          margin-bottom: 15px;
+        }
+
+        .has-more {
+          text-align: center;
+
+          .more-btn {
+            margin: 20px;
+          }
+        }
+      }
+
+      .new-comment {
+        margin-bottom: 30px;
+
+        .new-title {
+          font-weight: bold;
+          margin-bottom: 15px;
+        }
+
+        .new-bottom {
+          text-align: center;
+          margin: 30px 0;
+        }
+      }
+    }
 
     .detail-simi {
       margin-left: 50px;

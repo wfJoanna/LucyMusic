@@ -25,7 +25,7 @@
       <play-list :lists="playlists"></play-list>
     </div>
     <div class="bottom">
-      <el-pagination background layout="total,prev,pager,next" :page-size="40" :total="total"
+      <el-pagination background layout="total,prev,pager,next,jumper" :page-size="40" :total="total"
                      @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"></el-pagination>
     </div>

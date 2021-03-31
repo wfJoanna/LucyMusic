@@ -5,6 +5,7 @@
       <div class="info">
         <div class="first-line">{{ detail.name }}</div>
         <div class="second-line" v-if="detail.transNames">{{ detail.transNames[0] }}</div>
+        <div class="second-line" v-else-if="detail.alias&&detail.alias.length>0">{{ detail.alias[0] }}</div>
         <div class="third-line">
           <span class="text">单曲数：{{ detail.musicSize }}</span>
           <span class="text">专辑数：{{ detail.albumSize }}</span>
