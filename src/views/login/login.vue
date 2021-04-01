@@ -98,6 +98,7 @@ export default {
                 this.loginLoading = false
                 this.$message.success('登录成功')
                 window.localStorage.setItem('userInfo', JSON.stringify(res.profile))
+                document.cookie=res.cookie
                 this.$router.replace('/')
               })
               .catch(err => {
