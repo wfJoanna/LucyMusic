@@ -59,3 +59,18 @@ export function getYMD (time) {
     let d = new Date(time)
     return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日'
 }
+
+// 设置cookie
+export function setCookie(allCookie){
+    let arr=allCookie.split(';;')
+    for(let item of arr){
+        document.cookie=item
+    }
+}
+
+// 删除cookie
+export function deleteCookie(){
+    document.cookie = "MUSIC_U=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "__csrf=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "__remember_me=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}

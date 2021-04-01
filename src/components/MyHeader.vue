@@ -88,6 +88,7 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import * as types from '../store/mutationType'
+import { deleteCookie } from '../utils/util';
 
 export default {
   name: "MyHeader",
@@ -128,6 +129,7 @@ export default {
               this.$message.success('退出登录成功')
               this.toClearUserInfo()
               window.localStorage.setItem('userInfo', null)
+              deleteCookie()
               this.$router.push({
                 name:'home'
               })

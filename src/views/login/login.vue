@@ -66,6 +66,7 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 import * as types from '../../store/mutationType'
+import { setCookie } from '../../utils/util';
 
 export default {
   name: "login",
@@ -98,7 +99,7 @@ export default {
                 this.loginLoading = false
                 this.$message.success('登录成功')
                 window.localStorage.setItem('userInfo', JSON.stringify(res.profile))
-                document.cookie=res.cookie
+                setCookie(res.cookie)
                 this.$router.replace('/')
               })
               .catch(err => {
@@ -118,6 +119,12 @@ export default {
         }
       })
     }
+  },
+  mounted () {
+    this.$notify({
+      title: '请不要禁用cookie哦',
+      message: '如果您的浏览器禁用了cookie，会导致登录以及用户相关操作不正常'
+    });
   }
 }
 </script>
