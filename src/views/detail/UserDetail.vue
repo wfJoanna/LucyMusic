@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "UserDetail",
   data(){
@@ -10,8 +12,12 @@ export default {
       userId:''
     }
   },
+  methods:{
+    ...mapActions(['getMyInfo'])
+  },
   mounted () {
     this.userId=this.$route.query.id
+    this.getMyInfo()
   }
 }
 </script>

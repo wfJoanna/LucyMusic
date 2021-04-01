@@ -42,7 +42,7 @@ instance.interceptors.response.use(
         if (status === 200) {
             return Promise.resolve(data)
         } else if (status === 301) {
-            Message.error({ message: '请先登录！' })
+            Message.warning({ message: '请先登录！' })
             router.replace({
                 path: 'login'
             })

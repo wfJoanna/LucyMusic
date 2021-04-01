@@ -32,10 +32,10 @@ export default {
         return api.getSongDetail(param)
     },
     getNewSongs ({}, param) {
-        return api.getNewSongs(param)
+        return api.getNewSongs(param,new Date().getTime())
     },
     getPersonalized ({}, param) {
-        return api.getPersonalized(param)
+        return api.getPersonalized(param,new Date().getTime())
     },
     logout ({}) {
         return api.logout()
@@ -87,5 +87,8 @@ export default {
     },
     getAllComments({},param){
         return api.getAllComments(param)
+    },
+    getMyInfo({}){
+        return api.getMyInfo(new Date().getTime())
     }
 }

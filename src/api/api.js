@@ -22,15 +22,17 @@ export const getBanner = () => iAxios.get('/banner', {})
 
 /**
  * @method 获取推荐歌单
- * @params limit 取出数量默认为 30
+ * @param limit 取出数量默认为 30
+ * @param timestamp 时间戳
  */
-export const getPersonalized = limit => iAxios.get(`/personalized?limit=${limit}`, {})
+export const getPersonalized = (limit,timestamp) => iAxios.get(`/personalized?limit=${limit}&timestamp=${timestamp}`, {})
 
 /**
  * @method 获取最新音乐
- * @params limit 取出数量默认为 10
+ * @param limit 取出数量默认为 10
+ * @param timestamp 时间戳
  */
-export const getNewSongs = limit => iAxios.get(`/personalized/newsong?limit=${limit}`, {})
+export const getNewSongs = (limit,timestamp) => iAxios.get(`/personalized/newsong?limit=${limit}&timestamp=${timestamp}`, {})
 
 /**
  * @method 获取歌曲详情
@@ -139,7 +141,7 @@ export const getSingerAlbum = params => iAxios.get(`/artist/album`, { params })
  * @method 获取专辑内容
  * @param id 专辑id
  */
-export const getAlbum=id=>iAxios.get(`/album?id=${id}`,{})
+export const getAlbum = id => iAxios.get(`/album?id=${id}`, {})
 
 /**
  * @method 获取歌曲所有评论
@@ -148,4 +150,10 @@ export const getAlbum=id=>iAxios.get(`/album?id=${id}`,{})
  * @params offset
  * @params before
  */
-export const getAllComments=params=>iAxios.get(`/comment/music`,{params})
+export const getAllComments = params => iAxios.get(`/comment/music`, { params })
+
+/**
+ * @method 登录后获取用户信息
+ */
+export const getMyInfo = time => iAxios.get(`/user/subcount?timestamp=${time}`, {})
+
