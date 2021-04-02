@@ -1,7 +1,7 @@
 <template>
   <div class="personalized-song">
     <div class="song-title">
-      <span @click="handleOpenSong">最新音乐<i class="el-icon-arrow-right"></i></span>
+      <span style="cursor: pointer;" @click="handleOpenSong">最新音乐<i class="el-icon-arrow-right"></i></span>
     </div>
     <div class="song-content">
       <div class="song-item" v-for="(item,index) of songList" :key="item.id" @mouseenter="handleEnter(index)"
@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['playing']),
+    ...mapState(['playing','userInfo']),
     ...mapGetters(['currentSong'])
   },
   methods: {
@@ -103,7 +103,6 @@ export default {
 
   .song-title {
     font-weight: bold;
-    cursor: pointer;
     margin-bottom: 15px;
   }
 
@@ -137,6 +136,7 @@ export default {
       }
 
       .song-cover {
+        flex-shrink: 0;
         width: 55px;
         height: 55px;
         background-color: #d9d9d9;

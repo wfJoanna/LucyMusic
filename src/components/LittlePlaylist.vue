@@ -1,10 +1,10 @@
 <template>
-  <div class="play-list" v-loading="loading"
+  <div class="little-playlist" v-loading="loading"
        element-loading-text="拼命加载中"
        element-loading-spinner="el-icon-loading">
     <div class="list-item" v-for="item of lists" :key="item.id">
       <div class="item-cover" @click="handleListDetail(item)">
-        <el-image class="item-image" :src="item.picUrl||item.coverImgUrl" lazy>
+        <el-image class="item-image" :fit="'cover'" :src="item.picUrl||item.coverImgUrl" lazy>
           <div slot="placeholder" class="image-slot">
             加载中<span class="dot">...</span>
           </div>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "PlayList",
+  name: "LittlePlaylist",
   props: {
     lists: {
       type: Array,
@@ -33,32 +33,19 @@ export default {
         return []
       }
     },
-    type: {
-      type: String,
-      default: 'playlist'
-    },
-    loading: {
-      type: Boolean,
-      default: false
+    loading:{
+      type:Boolean,
+      default:false
     }
   },
   methods: {
     handleListDetail (item) {
-      if (this.type === 'album') {
-        this.$router.push({
-          name: 'album-detail',
-          query: {
-            id: item.id
-          }
-        })
-      } else {
-        this.$router.push({
-          name: 'playlist-detail',
-          query: {
-            id: item.id
-          }
-        })
-      }
+      this.$router.push({
+        name: 'playlist-detail',
+        query: {
+          id: item.id
+        }
+      })
     },
     getPlayCount (item) {
       return item.playCount < 10000 ? item.playCount : Math.floor(item.playCount / 10000) + '万'
@@ -68,15 +55,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.play-list {
+.little-playlist {
   display: flex;
   flex-wrap: wrap;
   min-height: 40px;
 
   .list-item {
-    flex: 0 0 12.5%;
+    flex: 0 0 50%;
     padding: 15px;
-    max-width: 12.5%;
+    max-width: 50%;
 
     .item-cover {
       cursor: pointer;

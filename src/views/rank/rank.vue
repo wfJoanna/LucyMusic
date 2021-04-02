@@ -1,9 +1,9 @@
 <template>
   <div class="rank">
     <div class="list-title">官方榜<i class="el-icon-arrow-right"></i></div>
-    <play-list :lists="lists.slice(0,4)"></play-list>
+    <play-list :lists="lists.slice(0,4)" :loading="loading"></play-list>
     <div class="list-title">全球榜<i class="el-icon-arrow-right"></i></div>
-    <play-list :lists="lists.slice(4)"></play-list>
+    <play-list :lists="lists.slice(4)" :loading="loading"></play-list>
   </div>
 </template>
 
@@ -16,19 +16,24 @@ export default {
   components: { PlayList },
   data () {
     return {
-      lists: []
+      lists: [],
+      loading: false
     }
   },
   methods: {
     ...mapActions(['getTopList']),
   },
   mounted () {
+    this.loading = true
     this.getTopList()
         .then(res => {
           this.lists = res.list
         })
         .catch(() => {
           this.$message.error('获取榜单失败')
+        })
+        .finally(() => {
+          this.loading = false
         })
   }
 }

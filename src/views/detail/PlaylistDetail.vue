@@ -146,6 +146,7 @@ export default {
         .avatar {
           margin-right: 5px;
           cursor: pointer;
+          flex-shrink: 0;
         }
 
         .user-name {

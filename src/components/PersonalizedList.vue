@@ -1,9 +1,9 @@
 <template>
   <div class="personalized-list">
     <div class="list-title">
-      <span @click="handleOpenList">推荐歌单<i class="el-icon-arrow-right"></i></span>
+      <span style="cursor: pointer;" @click="handleOpenList">推荐歌单<i class="el-icon-arrow-right"></i></span>
     </div>
-    <play-list :lists="lists"></play-list>
+    <play-list :lists="lists" :loading="loading"></play-list>
   </div>
 </template>
 
@@ -16,19 +16,24 @@ export default {
   components: { PlayList },
   data () {
     return {
-      lists: []
+      lists: [],
+      loading: false
     }
   },
   methods: {
     ...mapActions(['getPersonalized']),
     getPersonalizedList () {
+      this.loading = true
       this.getPersonalized(24)
           .then(res => {
             this.lists = res.result
           })
           .catch(() => this.$message.error('获取推荐歌单出错'))
+          .finally(() => {
+            this.loading = false
+          })
     },
-    handleOpenList(){
+    handleOpenList () {
       this.$router.push({
         name: 'playlist'
       })
@@ -46,7 +51,6 @@ export default {
 
   .list-title {
     font-weight: bold;
-    cursor: pointer;
     margin-bottom: 15px;
   }
 }

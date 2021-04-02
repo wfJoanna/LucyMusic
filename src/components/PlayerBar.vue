@@ -101,7 +101,7 @@
         </div>
       </el-popover>
     </div>
-    <audio ref="audio" :src="currentSong.url" @timeupdate="handleTimeUpdate" @ended="handleEnd"></audio>
+    <audio ref="audio" :src="url" @timeupdate="handleTimeUpdate" @ended="handleEnd"></audio>
   </div>
 </template>
 
@@ -118,7 +118,8 @@ export default {
   data () {
     return {
       volume: 100,
-      focusItem: -1
+      focusItem: -1,
+      url: '',
     }
   },
   computed: {
@@ -134,13 +135,44 @@ export default {
   },
   watch: {
     currentSong (newSong, oldSong) {
-      if (newSong.id === oldSong.id || !newSong.url || !newSong.id) {
+      if (newSong.id == oldSong.id || !newSong.id) {
         return
       }
-      this.$nextTick(() => {
-        const audio = this.$refs.audio
-        audio.play()
-      })
+      this.url = ''
+      this.getSongUrl(newSong.id)
+          .then(res => {
+            if (res.data[0].freeTrialInfo) {
+              this.$notify.info({
+                title: '试听',
+                dangerouslyUseHTMLString: true,
+                message: '正在试听《' + this.currentSong.name + '》从' + res.data[0].freeTrialInfo.start + '秒到' + res.data[0].freeTrialInfo.end + '秒的片段<br><br>开通vip畅听完整版',
+                position: 'bottom-right'
+              })
+            }
+            if(!res.data[0].url){
+              if(res.data[0].code==-110){
+                this.$notify.info({
+                  title:'购买',
+                  message:'版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享',
+                  position: 'bottom-right'
+                })
+              }else{
+                this.$notify.error({
+                  title:'下架',
+                  message:'因合作方要求，《'+this.currentSong.name+'》暂时下架 >_<',
+                  position: 'bottom-right'
+                })
+              }
+            }
+            this.url = res.data[0].url
+            this.$nextTick(() => {
+              const audio = this.$refs.audio
+              audio.play()
+            })
+          })
+          .catch(() => {
+            this.$message.error('获取音乐url失败')
+          })
     },
     playing (newStatus) {
       this.$nextTick(() => {
@@ -153,7 +185,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['selectPlay', 'pausePlay']),
+    ...mapActions(['selectPlay', 'pausePlay', 'getSongUrl']),
     ...mapMutations({
       toSetPlayingState: types.SET_PLAYING_STATE,
       toSetCurrentIndex: types.SET_CURRENT_INDEX,
@@ -215,7 +247,7 @@ export default {
         list = this.sequenceList
       }
       let index = list.findIndex(item => {
-        return item.id === this.currentSong.id
+        return item.id == this.currentSong.id
       })
       this.toSetCurrentIndex(index)
       this.toSetPlaylist(list)
@@ -259,6 +291,7 @@ export default {
   align-items: center;
 
   .audio-avatar {
+    flex-shrink: 0;
     width: 60px;
     height: 60px;
 

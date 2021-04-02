@@ -25,14 +25,14 @@ export const getBanner = () => iAxios.get('/banner', {})
  * @param limit 取出数量默认为 30
  * @param timestamp 时间戳
  */
-export const getPersonalized = (limit,timestamp) => iAxios.get(`/personalized?limit=${limit}&timestamp=${timestamp}`, {})
+export const getPersonalized = (limit, timestamp) => iAxios.get(`/personalized?limit=${limit}&timestamp=${timestamp}`, {})
 
 /**
  * @method 获取最新音乐
  * @param limit 取出数量默认为 10
  * @param timestamp 时间戳
  */
-export const getNewSongs = (limit,timestamp) => iAxios.get(`/personalized/newsong?limit=${limit}&timestamp=${timestamp}`, {})
+export const getNewSongs = (limit, timestamp) => iAxios.get(`/personalized/newsong?limit=${limit}&timestamp=${timestamp}`, {})
 
 /**
  * @method 获取歌曲详情
@@ -153,7 +153,27 @@ export const getAlbum = id => iAxios.get(`/album?id=${id}`, {})
 export const getAllComments = params => iAxios.get(`/comment/music`, { params })
 
 /**
- * @method 登录后获取用户信息
+ * @method 获取用户详情
+ * @param uid 用户id
  */
-export const getMyInfo = time => iAxios.get(`/user/subcount?timestamp=${time}`, {})
+export const getUserInfo = uid => iAxios.get(`/user/detail?uid=${uid}`, {})
 
+/**
+ * @method 获取用户歌单
+ * @params uid
+ */
+export const getUserPlaylist=params=>iAxios.get(`/user/playlist`,{params})
+
+/**
+ * @method 获取用户播放记录
+ * @params uid
+ * @params type
+ */
+export const getUserRecord=params=>iAxios.get(`/user/record`,{params})
+
+/**
+ * @method 获取音乐url
+ * @param id
+ * @param timestamp
+ */
+export const getSongUrl=(id,timestamp)=>iAxios.get(`/song/url?id=${id}&timestamp=${timestamp}`,{})

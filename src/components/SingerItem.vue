@@ -44,6 +44,7 @@ export default {
     height: 80px;
     margin-bottom: 10px;
     cursor: pointer;
+    flex-shrink: 0;
   }
 
   .name {

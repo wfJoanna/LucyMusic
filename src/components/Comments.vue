@@ -3,14 +3,14 @@
        element-loading-text="拼命加载中"
        element-loading-spinner="el-icon-loading">
     <div class="hot-item" v-for="item in comments" :key="item.commentId">
-      <el-image class="hot-avatar" @click="handleUser(item)" :fit="'cover'" :src="item.user.avatarUrl" lazy></el-image>
+      <el-image class="hot-avatar" @click="handleUser(item.user.userId)" :fit="'cover'" :src="item.user.avatarUrl" lazy></el-image>
       <div class="hot-left">
-        <div class="left-comment"><span class="user-name" @click="handleUser(item)">{{
+        <div class="left-comment"><span class="user-name" @click="handleUser(item.user.userId)">{{
             item.user.nickname
           }}</span>：{{ item.content }}
         </div>
         <div class="children-comment" v-if="item.beReplied&&item.beReplied.length>0">
-          <span class="user-name" @click="handleUser(item)">{{
+          <span class="user-name" @click="handleUser(item.beReplied[0].user.userId)">{{
               item.beReplied[0].user.nickname
             }}</span>：{{ item.beReplied[0].content }}
         </div>
@@ -44,11 +44,11 @@ export default {
     toGetYMD (time) {
       return getYMD(time)
     },
-    handleUser (item) {
+    handleUser (id) {
       this.$router.push({
         name: 'user-detail',
         query: {
-          id: item.user.userId
+          id: id
         }
       })
     }
@@ -81,6 +81,7 @@ export default {
       border-radius: 50%;
       margin-right: 10px;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .hot-left {

@@ -11,7 +11,7 @@ export default {
         if (state.mode === playMode.random) {
             let randomList = shuffle(list)
             commit(types.SET_PLAYLIST, randomList)
-            index = randomList.findIndex(item => item.id === list[index].id)
+            index = randomList.findIndex(item => item.id == list[index].id)
         } else {
             commit(types.SET_PLAYLIST, list)
         }
@@ -88,7 +88,16 @@ export default {
     getAllComments({},param){
         return api.getAllComments(param)
     },
-    getMyInfo({}){
-        return api.getMyInfo(new Date().getTime())
+    getUserInfo({},param){
+        return api.getUserInfo(param)
+    },
+    getUserPlaylist({},param){
+        return api.getUserPlaylist(param)
+    },
+    getUserRecord({},param){
+        return api.getUserRecord(param)
+    },
+    getSongUrl({},param){
+        return api.getSongUrl(param,new Date().getTime())
     }
 }

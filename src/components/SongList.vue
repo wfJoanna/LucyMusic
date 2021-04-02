@@ -88,6 +88,7 @@ export default {
     }
 
     .item-cover {
+      flex-shrink: 0;
       width: 40px;
       height: 40px;
       margin: 8px;
@@ -120,17 +121,20 @@ export default {
     }
 
     .item-name {
-      width: 300px;
+      //width: 300px;
+      flex-basis: 20%;
       margin: 0 10px;
     }
 
     .item-singer {
-      width: 400px;
+      //width: 400px;
+      flex-basis: 30%;
       margin: 0 10px;
     }
 
     .item-album {
-      width: 200px;
+      //width: 200px;
+      flex-basis: 20%;
       margin: 0 10px;
       cursor: pointer;
 

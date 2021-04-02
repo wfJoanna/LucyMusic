@@ -467,6 +467,7 @@ export default {
         }
 
         .item-cover {
+          flex-shrink: 0;
           width: 60px;
           height: 60px;
           margin: 8px;

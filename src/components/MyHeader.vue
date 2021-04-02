@@ -69,7 +69,7 @@
     </div>
     <div class="user-box">
       <div class="is-login" v-if="userInfo">
-        <el-avatar :src="userInfo.avatarUrl"></el-avatar>
+        <el-avatar style="flex-shrink: 0;" :src="userInfo.avatarUrl"></el-avatar>
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="user-dropdown">
             {{ userInfo.nickname }}<i class="el-icon-arrow-down"></i>
