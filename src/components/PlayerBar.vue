@@ -37,7 +37,7 @@
     </div>
     <div class="audio-progress">
       <span>{{ toGetMS(currentTime) }}</span>
-      <progress-bar :percent="percent" @leftChange="handleLeftChange"></progress-bar>
+      <progress-bar :percent="percent" @leftChange="handleLeftChange" :start="freeStart" :end="freeEnd"></progress-bar>
       <span>{{ toGetMS(currentSong.duration) }}</span>
     </div>
     <div class="audio-volume">
@@ -120,7 +120,8 @@ export default {
       volume: 100,
       focusItem: -1,
       url: '',
-      freeStart:0
+      freeStart:0,
+      freeEnd:0
     }
   },
   computed: {
@@ -140,11 +141,13 @@ export default {
         return
       }
       this.freeStart=0
+      this.freeEnd=0
       this.url = ''
       this.getSongUrl(newSong.id)
           .then(res => {
             if (res.data[0].freeTrialInfo) {
               this.freeStart=res.data[0].freeTrialInfo.start
+              this.freeEnd=res.data[0].freeTrialInfo.end
               this.$notify.info({
                 title: '试听',
                 dangerouslyUseHTMLString: true,
