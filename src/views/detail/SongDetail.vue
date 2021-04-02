@@ -16,11 +16,11 @@
         </div>
         <div class="detail-lyric" v-if="lyrics">
           <div class="lyric-move" :style="lyricTop">
-            <div class="lyric-basic" :class="{'lyric-active':lyricActive(index)}" v-for="(item,index) in lyricObject"
-                 :key="index">{{ item }}
+            <div class="lyric-basic" :class="{'lyric-active':lyricIndex===index}" v-for="(item,index) in lyricArray"
+                 :key="index">{{ item.content }}
             </div>
           </div>
-          <div class="lyric-cover"></div>
+<!--          <div class="lyric-cover"></div>-->
         </div>
         <div class="no-lyric" v-else>~~ 没有歌词哦 ~~</div>
       </div>
@@ -82,16 +82,11 @@ export default {
     songId () {
       return this.currentSong.id
     },
-    lyricActive () {
-      return function (index) {
-        return this.currentTime >= index
-      }
-    },
     lyricTop () {
       let line = 37
       let n = 0
-      for (let index in this.lyricObject) {
-        if (this.currentTime >= index) {
+      for (let item of this.lyricArray) {
+        if (this.currentTime >= item.time) {
           n++; // n代表歌词当前进行到第几行
         }
       }
@@ -110,17 +105,29 @@ export default {
   watch: {
     songId () {
       this.initialize()
-      this.currentPage=1
-      this.hotTotal=[]
+      this.currentPage = 1
+      this.hotTotal = []
     },
     playing () {
       this.turnOrStop()
+    },
+    currentTime (newTime) {
+      if (this.lyrics) {
+        let index = -1
+        for (let i = 0; i < this.lyricArray.length; i++) {
+          if (newTime > this.lyricArray[i].time) {
+            index = i
+          }
+        }
+        this.lyricIndex = index
+      }
     }
   },
   data () {
     return {
       lyrics: '',
-      lyricObject: {},
+      lyricArray: [],
+      lyricIndex: -1,
 
       hotComments: [],
       hasMoreHot: false,
@@ -178,21 +185,20 @@ export default {
     },
     splitLyrics () {
       let split1 = this.lyrics.split(/\[|\]/g)
-      let res = {}
+      let res = []
 
       for (let i = 1; i < split1.length; i += 2) {
         let min = split1[i].substr(0, 2)
         let sec = split1[i].substr(3, 2)
         let time = min * 60 + sec * 1
 
-        if (res.hasOwnProperty(time)) {
-          res[time] = res[time] + split1[i + 1]
-        } else {
-          res[time] = split1[i + 1]
-        }
+        res.push({
+          time: time,
+          content: split1[i + 1]
+        })
       }
 
-      this.lyricObject = Object.assign({}, res) // 深拷贝。其实浅拷贝也可以
+      this.lyricArray = res
     },
     getSimiSinger (artists) {
       return getSinger(artists)
@@ -366,9 +372,13 @@ export default {
       .detail-lyric {
         margin: 30px 0;
         padding: 10px 20px;
-        position: relative; //只是为了蒙层
+        position: relative;
         height: 360px;
         overflow: hidden;
+        //border-radius: 5px;
+        //background: rgba(255, 255, 255, 0.9);
+        //-webkit-box-shadow: 0px 5px 40px -1px rgba(2, 10, 18, 0.1);
+        //box-shadow: 0px 5px 40px -1px rgba(2, 10, 18, 0.1);
 
         .lyric-move {
           width: 100%;
@@ -379,6 +389,8 @@ export default {
 
           .lyric-basic {
             height: 37px;
+            font-size: 14px;
+            font-weight: 250;
           }
 
           .lyric-active {
@@ -386,14 +398,14 @@ export default {
           }
         }
 
-        .lyric-cover {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
-        }
+        //.lyric-cover {
+        //  position: absolute;
+        //  top: 0;
+        //  left: 0;
+        //  width: 100%;
+        //  height: 100%;
+        //  background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
+        //}
       }
 
       .no-lyric {
@@ -410,9 +422,11 @@ export default {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
     .comments {
       width: 100%;
+
       .hot-comment {
         margin: 30px 0;
 
@@ -463,7 +477,10 @@ export default {
         align-items: center;
 
         &:hover {
-          background: #e6e6e6;
+          //background: #e6e6e6;
+          background: rgba(255, 255, 255, 0.9);
+          -webkit-box-shadow: 0px 5px 40px -1px rgba(2, 10, 18, 0.1);
+          box-shadow: 0px 5px 40px -1px rgba(2, 10, 18, 0.1);
         }
 
         .item-cover {

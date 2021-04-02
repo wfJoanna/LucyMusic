@@ -120,6 +120,7 @@ export default {
       volume: 100,
       focusItem: -1,
       url: '',
+      freeStart:0
     }
   },
   computed: {
@@ -138,10 +139,12 @@ export default {
       if (newSong.id == oldSong.id || !newSong.id) {
         return
       }
+      this.freeStart=0
       this.url = ''
       this.getSongUrl(newSong.id)
           .then(res => {
             if (res.data[0].freeTrialInfo) {
+              this.freeStart=res.data[0].freeTrialInfo.start
               this.$notify.info({
                 title: '试听',
                 dangerouslyUseHTMLString: true,
@@ -222,7 +225,7 @@ export default {
       return getMS(time)
     },
     handleTimeUpdate (e) {
-      this.toSetCurrentTime(e.target.currentTime)
+      this.toSetCurrentTime(e.target.currentTime+this.freeStart)
     },
     handleLeftChange (left) {
       if (this.currentSong.id) {
