@@ -181,4 +181,4 @@ export const getSongUrl = (id, timestamp) => iAxios.get(`/song/url?id=${id}&time
 /**
  * @method 用来测试cookie
  */
-export const testCookie = () => iAxios.get(`/user/subcount`, {})
+export const testCookie = () => iAxios.get(`/user/subcount?timestamp=${new Date().getTime()}`, {})

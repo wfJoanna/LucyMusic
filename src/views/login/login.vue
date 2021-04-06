@@ -67,6 +67,7 @@
 import { mapActions, mapMutations } from 'vuex'
 import * as types from '../../store/mutationType'
 import { setCookie } from '../../utils/util';
+import router from '../../router';
 
 export default {
   name: "login",
@@ -101,7 +102,8 @@ export default {
                 this.$message.success('登录成功')
                 window.localStorage.setItem('userInfo', JSON.stringify(res.profile))
                 setCookie(res.cookie)
-                this.$router.replace('/')
+                this.$router.go(-1)
+                // this.$router.replace('/')
               })
               .catch(err => {
                 this.loginLoading = false
