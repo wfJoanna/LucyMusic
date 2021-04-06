@@ -37,7 +37,8 @@
     </div>
     <div class="audio-progress">
       <span>{{ toGetMS(currentTime) }}</span>
-      <progress-bar :percent="percent" @leftChange="handleLeftChange" :start="freeStart" :end="freeEnd"></progress-bar>
+      <!--      <progress-bar :percent="percent" @leftChange="handleLeftChange" :start="freeStart" :end="freeEnd"></progress-bar>-->
+      <progress-bar :percent="percent" @leftChange="handleLeftChange"></progress-bar>
       <span>{{ toGetMS(currentSong.duration) }}</span>
     </div>
     <div class="audio-volume">
@@ -101,7 +102,8 @@
         </div>
       </el-popover>
     </div>
-    <audio ref="audio" :src="url" @timeupdate="handleTimeUpdate" @ended="handleEnd"></audio>
+    <audio ref="audio" :src="currentSong.url" @timeupdate="handleTimeUpdate" @ended="handleEnd"
+           @error="handleSrcError"></audio>
   </div>
 </template>
 
@@ -111,6 +113,7 @@ import * as types from '../store/mutationType'
 import { getMS, shuffle } from '../utils/util'
 import ProgressBar from './ProgressBar';
 import { playMode } from '../utils/constant';
+import iAxios from '../api/instance'
 
 export default {
   name: "PlayerBar",
@@ -119,9 +122,9 @@ export default {
     return {
       volume: 100,
       focusItem: -1,
-      url: '',
-      freeStart:0,
-      freeEnd:0
+      // url: '',
+      // freeStart:0,
+      // freeEnd:0
     }
   },
   computed: {
@@ -137,48 +140,59 @@ export default {
   },
   watch: {
     currentSong (newSong, oldSong) {
-      if (newSong.id == oldSong.id || !newSong.id) {
+      if (newSong.id == oldSong.id || !newSong.url || !newSong.id) {
         return
       }
-      this.freeStart=0
-      this.freeEnd=0
-      this.url = ''
-      this.getSongUrl(newSong.id)
-          .then(res => {
-            if (res.data[0].freeTrialInfo) {
-              this.freeStart=res.data[0].freeTrialInfo.start
-              this.freeEnd=res.data[0].freeTrialInfo.end
-              this.$notify.info({
-                title: '试听',
-                dangerouslyUseHTMLString: true,
-                message: '正在试听《' + this.currentSong.name + '》从' + res.data[0].freeTrialInfo.start + '秒到' + res.data[0].freeTrialInfo.end + '秒的片段<br><br>开通vip畅听完整版',
-                position: 'bottom-right'
-              })
-            }
-            if(!res.data[0].url){
-              if(res.data[0].code==-110){
-                this.$notify.info({
-                  title:'购买',
-                  message:'版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享',
-                  position: 'bottom-right'
-                })
-              }else{
-                this.$notify.error({
-                  title:'下架',
-                  message:'因合作方要求，《'+this.currentSong.name+'》暂时下架 >_<',
-                  position: 'bottom-right'
-                })
-              }
-            }
-            this.url = res.data[0].url
-            this.$nextTick(() => {
-              const audio = this.$refs.audio
-              audio.play()
-            })
-          })
-          .catch(() => {
-            this.$message.error('获取音乐url失败')
-          })
+      // let musicTest=new Audio()
+      // musicTest.src=newSong.url
+      // console.log(musicTest.duration,'SRC')
+      // if(!musicTest.currentSrc){
+      //   console.log('no')
+      //   return
+      // }
+      this.$nextTick(() => {
+        const audio = this.$refs.audio
+        audio.play()
+      })
+      // this.freeStart=0
+      // this.freeEnd=0
+      // this.url = ''
+      // this.getSongUrl(newSong.id)
+      //     .then(res => {
+      //       if (res.data[0].freeTrialInfo) {
+      //         this.freeStart=res.data[0].freeTrialInfo.start
+      //         this.freeEnd=res.data[0].freeTrialInfo.end
+      //         this.$notify.info({
+      //           title: '试听',
+      //           dangerouslyUseHTMLString: true,
+      //           message: '正在试听《' + this.currentSong.name + '》从' + res.data[0].freeTrialInfo.start + '秒到' + res.data[0].freeTrialInfo.end + '秒的片段<br><br>开通vip畅听完整版',
+      //           position: 'bottom-right'
+      //         })
+      //       }
+      //       if(!res.data[0].url){
+      //         if(res.data[0].code==-110){
+      //           this.$notify.info({
+      //             title:'购买',
+      //             message:'版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享',
+      //             position: 'bottom-right'
+      //           })
+      //         }else{
+      //           this.$notify.error({
+      //             title:'下架',
+      //             message:'因合作方要求，《'+this.currentSong.name+'》暂时下架 >_<',
+      //             position: 'bottom-right'
+      //           })
+      //         }
+      //       }
+      //       this.url = res.data[0].url
+      //       this.$nextTick(() => {
+      //         const audio = this.$refs.audio
+      //         audio.play()
+      //       })
+      //     })
+      //     .catch(() => {
+      //       this.$message.error('获取音乐url失败')
+      //     })
     },
     playing (newStatus) {
       this.$nextTick(() => {
@@ -228,7 +242,8 @@ export default {
       return getMS(time)
     },
     handleTimeUpdate (e) {
-      this.toSetCurrentTime(e.target.currentTime+this.freeStart)
+      // this.toSetCurrentTime(e.target.currentTime+this.freeStart)
+      this.toSetCurrentTime(e.target.currentTime)
     },
     handleLeftChange (left) {
       if (this.currentSong.id) {
@@ -278,6 +293,13 @@ export default {
     },
     handleSongDetail () {
       this.$router.push('song-detail')
+    },
+    handleSrcError () {
+      this.$notify.warning({
+        title: '抱歉',
+        message: '无法播放《'+this.currentSong.name+'》 >_<',
+        position: 'bottom-right'
+      })
     }
   }
 }

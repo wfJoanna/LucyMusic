@@ -17,7 +17,7 @@ export function getRandomInt (min, max) {
 export function createSong (data) {
     return {
         id: data.id,
-        // url: `https://music.163.com/song/media/outer/url?id=${data.id}.mp3`,
+        url: `https://music.163.com/song/media/outer/url?id=${data.id}.mp3`,
         singer: getSinger(data.ar),
         name: data.name,
         duration: getSecond(data.dt),

@@ -379,7 +379,7 @@ export default {
         margin: 30px 0;
         padding: 10px 20px;
         position: relative;
-        height: 360px;
+        height: 320px;
         overflow: hidden;
         //border-radius: 5px;
         //background: rgba(255, 255, 255, 0.9);
