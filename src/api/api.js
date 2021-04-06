@@ -162,18 +162,23 @@ export const getUserInfo = uid => iAxios.get(`/user/detail?uid=${uid}`, {})
  * @method 获取用户歌单
  * @params uid
  */
-export const getUserPlaylist=params=>iAxios.get(`/user/playlist`,{params})
+export const getUserPlaylist = params => iAxios.get(`/user/playlist`, { params })
 
 /**
  * @method 获取用户播放记录
  * @params uid
  * @params type
  */
-export const getUserRecord=params=>iAxios.get(`/user/record`,{params})
+export const getUserRecord = params => iAxios.get(`/user/record`, { params })
 
 /**
  * @method 获取音乐url
  * @param id
  * @param timestamp
  */
-export const getSongUrl=(id,timestamp)=>iAxios.get(`/song/url?id=${id}&timestamp=${timestamp}`,{})
+export const getSongUrl = (id, timestamp) => iAxios.get(`/song/url?id=${id}&timestamp=${timestamp}`, {})
+
+/**
+ * @method 用来测试cookie
+ */
+export const testCookie = () => iAxios.get(`/user/subcount`, {})

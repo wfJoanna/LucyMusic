@@ -21,6 +21,7 @@ function getInfo () {
     if (document.cookie.indexOf('MUSIC_U') !== -1) {
         return JSON.parse(window.localStorage.getItem('userInfo'))
     } else {
+        window.localStorage.setItem('userInfo',null)
         return null
     }
 }

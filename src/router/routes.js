@@ -128,6 +128,15 @@ export const appRouter = [
                 },
                 name: 'search',
                 component: () => import(/* webpackChunkName: "search" */ '../views/search/search')
+            },
+            {
+                path: 'test',
+                meta: {
+                    title: '测试',
+                    keepAlive: true
+                },
+                name: 'test',
+                component: () => import(/* webpackChunkName: "test" */ '../views/test/TestCookie')
             }
         ]
     }

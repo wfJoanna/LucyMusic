@@ -138,7 +138,7 @@ export default {
   align-items: center;
   //background: #413c69;
   background: #413c69 no-repeat;
-  background-size: 600px;
+  background-size: 620px;
 
   .login-card {
     width: 350px;

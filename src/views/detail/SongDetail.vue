@@ -20,9 +20,9 @@
                  :key="index">{{ item.content }}
             </div>
           </div>
-<!--          <div class="lyric-cover"></div>-->
+          <!--          <div class="lyric-cover"></div>-->
         </div>
-        <div class="no-lyric" v-else>~~ 没有歌词哦 ~~</div>
+        <div class="no-lyric" v-else-if="!lyrics && !lyricLoading">~~ 没有歌词哦 ~~</div>
       </div>
     </div>
     <div class="detail-bottom">
@@ -126,6 +126,7 @@ export default {
   data () {
     return {
       lyrics: '',
+      lyricLoading: false,
       lyricArray: [],
       lyricIndex: -1,
 
@@ -156,6 +157,8 @@ export default {
       this.turnOrStop()
     },
     getSongLyrics () {
+      this.lyrics = ''
+      this.lyricLoading = true
       this.getLyric(this.songId)
           .then(res => {
             if (res.lrc) {
@@ -165,6 +168,9 @@ export default {
           })
           .catch(() => {
             this.$message.error('获取歌词失败')
+          })
+          .finally(() => {
+            this.lyricLoading = false
           })
     },
     getSimiSongs () {
