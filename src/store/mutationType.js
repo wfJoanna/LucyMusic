@@ -24,3 +24,5 @@ export const SET_CURRENT_TIME = 'set_current_time'
 
 /** 设置cookie **/
 export const SET_COOKIE = 'set_cookie'
+
+export const CLEAR_COOKIE = 'clear_cookie'

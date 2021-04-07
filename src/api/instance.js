@@ -46,6 +46,11 @@ instance.interceptors.response.use(
             router.push({
                 path: 'login'
             })
+        }else if (status === 401) {
+            Message.warning({ message: '登录已过期，请重新登录！' })
+            router.push({
+                path: 'login'
+            })
         } else {
             return Promise.reject(response)
         }

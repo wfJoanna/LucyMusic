@@ -102,7 +102,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toClearUserInfo: types.CLEAR_USER_INFO
+      toClearUserInfo: types.CLEAR_USER_INFO,
+      toClearCookie: types.CLEAR_COOKIE
     }),
     ...mapActions(['logout']),
     handleLogin () {
@@ -128,6 +129,7 @@ export default {
             .then(() => {
               this.$message.success('退出登录成功')
               this.toClearUserInfo()
+              this.toClearCookie()
               window.localStorage.setItem('userInfo', null)
               window.localStorage.setItem('cookie', null)
               // deleteCookie()

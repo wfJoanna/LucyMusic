@@ -27,5 +27,8 @@ export default {
     },
     [types.SET_COOKIE] (state, data) {
         state.cookie = data
+    },
+    [types.CLEAR_COOKIE] (state) {
+        state.cookie = null
     }
 }
