@@ -129,7 +129,8 @@ export default {
               this.$message.success('退出登录成功')
               this.toClearUserInfo()
               window.localStorage.setItem('userInfo', null)
-              deleteCookie()
+              window.localStorage.setItem('cookie', null)
+              // deleteCookie()
               this.$router.push({
                 name:'home'
               })

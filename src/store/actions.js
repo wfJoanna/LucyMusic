@@ -32,13 +32,13 @@ export default {
         return api.getSongDetail(param)
     },
     getNewSongs ({}, param) {
-        return api.getNewSongs(param,new Date().getTime())
+        return api.getNewSongs(param,new Date().getTime(),encodeURIComponent(state.cookie))
     },
     getPersonalized ({}, param) {
-        return api.getPersonalized(param,new Date().getTime())
+        return api.getPersonalized(param,new Date().getTime(),encodeURIComponent(state.cookie))
     },
     logout ({}) {
-        return api.logout()
+        return api.logout(encodeURIComponent(state.cookie))
     },
     getBanners ({}) {
         return api.getBanner()

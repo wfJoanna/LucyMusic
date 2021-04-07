@@ -91,6 +91,7 @@ import { mapActions } from 'vuex';
 import { createSong } from '../../utils/util';
 import SongList from '../../components/SongList';
 import LittlePlaylist from '../../components/LittlePlaylist';
+import state from '../../store/state';
 
 export default {
   name: "UserDetail",
@@ -145,7 +146,8 @@ export default {
       this.rankLoading = true
       let rParams = {
         uid: this.userId,
-        type: this.rankType
+        type: this.rankType,
+        cookie: encodeURIComponent(this.$store.state.cookie)
       }
       this.getUserRecord(rParams)
           .then(res => {

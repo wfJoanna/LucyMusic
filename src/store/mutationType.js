@@ -21,3 +21,6 @@ export const SET_PLAY_MODE = 'set_play_mode'
 
 /** 设置当前播放时间 **/
 export const SET_CURRENT_TIME = 'set_current_time'
+
+/** 设置cookie **/
+export const SET_COOKIE = 'set_cookie'

@@ -2,7 +2,9 @@ import { playMode } from '../utils/constant';
 
 export default {
     // 用户信息
-    userInfo: getInfo(),
+    // userInfo: getInfo(),
+    userInfo: JSON.parse(window.localStorage.getItem('userInfo')),
+    cookie: window.localStorage.getItem('cookie'),
     // 顺序播放列表
     sequenceList: [],
     // 播放模式（列表循环、单曲循环、随机播放）
@@ -17,11 +19,11 @@ export default {
     currentTime: 0
 }
 
-function getInfo () {
-    if (document.cookie.indexOf('MUSIC_U') !== -1) {
-        return JSON.parse(window.localStorage.getItem('userInfo'))
-    } else {
-        window.localStorage.setItem('userInfo',null)
-        return null
-    }
-}
+// function getInfo () {
+    // if (document.cookie.indexOf('MUSIC_U') !== -1) {
+    //     return JSON.parse(window.localStorage.getItem('userInfo'))
+    // } else {
+    //     window.localStorage.setItem('userInfo',null)
+    //     return null
+    // }
+// }

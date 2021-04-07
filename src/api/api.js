@@ -12,8 +12,9 @@ export const login = (phone, password) =>
 
 /**
  * @method 退出登录
+ * @param cookie
  */
-export const logout = () => iAxios.get('/logout', {})
+export const logout = cookie => iAxios.get(`/logout?cookie=${cookie}`, {})
 
 /**
  * @method 获取轮播图
@@ -24,15 +25,17 @@ export const getBanner = () => iAxios.get('/banner', {})
  * @method 获取推荐歌单
  * @param limit 取出数量默认为 30
  * @param timestamp 时间戳
+ * @param cookie
  */
-export const getPersonalized = (limit, timestamp) => iAxios.get(`/personalized?limit=${limit}&timestamp=${timestamp}`, {})
+export const getPersonalized = (limit, timestamp,cookie) => iAxios.get(`/personalized?limit=${limit}&timestamp=${timestamp}&cookie=${cookie}`, {})
 
 /**
  * @method 获取最新音乐
  * @param limit 取出数量默认为 10
  * @param timestamp 时间戳
+ * @param cookie
  */
-export const getNewSongs = (limit, timestamp) => iAxios.get(`/personalized/newsong?limit=${limit}&timestamp=${timestamp}`, {})
+export const getNewSongs = (limit, timestamp,cookie) => iAxios.get(`/personalized/newsong?limit=${limit}&timestamp=${timestamp}&cookie=${cookie}`, {})
 
 /**
  * @method 获取歌曲详情
@@ -180,5 +183,6 @@ export const getSongUrl = (id, timestamp) => iAxios.get(`/song/url?id=${id}&time
 
 /**
  * @method 用来测试cookie
+ * @param cookie
  */
-export const testCookie = () => iAxios.get(`/user/subcount?timestamp=${new Date().getTime()}`, {})
+export const testCookie = cookie => iAxios.get(`/user/subcount?timestamp=${new Date().getTime()}&cookie=${cookie}`, {})

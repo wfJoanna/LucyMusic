@@ -87,7 +87,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toSetUserInfo: types.SET_USER_INFO
+      toSetUserInfo: types.SET_USER_INFO,
+      toSetCookie: types.SET_COOKIE
     }),
     ...mapActions(['login']),
     // 提交登录
@@ -98,10 +99,12 @@ export default {
           this.login(this.loginForm)
               .then(res => {
                 this.toSetUserInfo(res.profile)
+                this.toSetCookie(res.cookie)
                 this.loginLoading = false
                 this.$message.success('登录成功')
                 window.localStorage.setItem('userInfo', JSON.stringify(res.profile))
-                setCookie(res.cookie)
+                window.localStorage.setItem('cookie', res.cookie)
+                // setCookie(res.cookie)
                 this.$router.go(-1)
                 // this.$router.replace('/')
               })
@@ -124,10 +127,10 @@ export default {
     }
   },
   mounted () {
-    this.$notify.warning({
-      title: '请不要禁用cookie哦',
-      message: '如果您的浏览器禁用了cookie，会导致登录以及用户相关操作不正常'
-    });
+    // this.$notify.warning({
+    //   title: '请不要禁用cookie哦',
+    //   message: '如果您的浏览器禁用了cookie，会导致登录以及用户相关操作不正常'
+    // });
   }
 }
 </script>
