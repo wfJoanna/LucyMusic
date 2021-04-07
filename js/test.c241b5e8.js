@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["test"],{"07d1":function(e,t,n){"use strict";n.r(t);var o=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div")},i=[],s={name:"TestCookie",mounted:function(){this.$api.testCookie()}},u=s,a=n("2877"),c=Object(a["a"])(u,o,i,!1,null,"f4edf6e4",null);t["default"]=c.exports}}]);
-//# sourceMappingURL=test.c241b5e8.js.map
