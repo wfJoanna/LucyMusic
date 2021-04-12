@@ -19,7 +19,7 @@
 
 
 
-## 效果演示：[demo](https://wfjoanna.github.io/LucyMusic/)
+## 效果演示：[demo](https://lucy-music.vercel.app/)
 
 没有适应移动端，暂时懒得弄了，只适应pc端网页浏览
 
@@ -78,6 +78,10 @@ Lucy之名取自《Steel Ball Run》里的勇敢女性Lucy Steel
   - 改动：
     - 301登录由replace改为push
     - 换成了手传cookie的方式
+- 1.0.3
+  - 时间：2021.4.12
+  - 改动：
+    - 我放弃github pages了，太慢了，太不稳定了，我选择换成vercel。同时，解决了之前报错“Uncaught SyntaxError: Unexpected token '<'”（明明请求的js文件，返回的确实html代码，我看了的，本地build生成的文件是对的），解决方法就是将vue.config.js里的publicPath生产环境部分设成'./'，原先这里是'/LucyMusic/'，是因为github pages不是根目录而是跟了个仓库名，所以要这么弄，但现在我放弃github pages了，所以就没必要这么弄了，这样一来，"serve -s dist"又可以用了。同时，调用assets下的图片也不用require了
 
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="login" :style="{backgroundImage:'url('+pic+')'}">
+  <div class="login">
     <div class="login-card">
       <div class="logo-svg">
         <svg id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"
@@ -81,8 +81,7 @@ export default {
         phone: [{ required: true, message: '请输入手机号哦', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码哦', trigger: 'blur' }]
       },
-      loginLoading: false,
-      pic: require('../../assets/lgbg.png')
+      loginLoading: false
     }
   },
   methods: {
@@ -142,7 +141,7 @@ export default {
   justify-content: center;
   align-items: center;
   //background: #413c69;
-  background: #413c69 no-repeat;
+  background: url(../../assets/lgbg.png) #413c69 no-repeat;
   background-size: 620px;
 
   .login-card {
